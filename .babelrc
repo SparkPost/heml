@@ -3,7 +3,8 @@
     ["env", {
       "targets": {
         "node": 4
-      }
+      },
     }]
-  ]
+  ],
+  "plugins": [ "transform-runtime", "transform-object-rest-spread" ]
 }
