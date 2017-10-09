@@ -2,7 +2,12 @@
   "name": "@heml/parser",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "build/index.js",
   "author": "SparkPost <dev-relations@sparkpost.com> (https://sparkpost.com)",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.2",
+    "html-tags": "^2.0.0",
+    "lodash": "^4.17.4"
+  }
 }
