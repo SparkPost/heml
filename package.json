@@ -1,5 +1,8 @@
 {
 	"private": true,
+	"scripts": {
+		"lint": "standard 'packages/**/src/**/*.js' --fix"
+	},
 	"devDependencies": {
 		"babel-cli": "^6.26.0",
 		"babel-plugin-transform-async-to-generator": "^6.24.1",
@@ -12,6 +15,7 @@
 		"gulp-plumber": "^1.1.0",
 		"gulp-util": "^3.0.8",
 		"lerna": "^2.4.0",
+		"standard": "^10.0.3",
 		"through2": "^2.0.3"
 	}
 }
