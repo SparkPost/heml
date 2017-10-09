@@ -1,0 +1,8 @@
+{
+  "name": "@heml/parser",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "author": "SparkPost <dev-relations@sparkpost.com> (https://sparkpost.com)",
+  "license": "MIT"
+}
