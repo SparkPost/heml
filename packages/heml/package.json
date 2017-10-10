@@ -1,8 +1,12 @@
 {
-  "name": "@heml/render",
+  "name": "heml",
   "version": "1.0.0",
   "description": "",
   "main": "build/index.js",
   "author": "SparkPost <dev-relations@sparkpost.com> (https://sparkpost.com)",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "heml-parse": "1.0.0",
+    "heml-render": "1.0.0"
+  }
 }
