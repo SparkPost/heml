@@ -67,35 +67,36 @@ export default postcss.plugin('postcss-element-expander', ({ elements, $ }) => {
 
         /** Create new rules to properly target the elements */
         const expandedRules = expandElementRule(element, elementSelectors, rule)
-        // expandedRules.forEach((elementRule) => rule.before(elementRule))
+        expandedRules.forEach((expandedRule) => rule.before(expandedRule))
 
         /** remove the directly targeting selectors from the original rule */
-        // rule.selectors = rule.selectors.rules((selector) => !elementSelectors.includes(selector))
+        rule.selectors = rule.selectors.filter((selector) => !elementSelectors.includes(selector))
 
-        /** remove the rule if has no more selectors */
-        // if (rule.selector.trim() === '') return rule.remove()
+        /** remove the rule if has no selectors */
+        if (rule.selector.trim() === '') return rule.remove()
 
         /** CASE 2 */
         /** Replace all mentions of the element pseudo elements */
-        // rule.selector = replaceElementPseudos(element, rule.selector)
+        rule.selector = replaceElementPseudoMentions(element, rule.selector)
 
         /** CASE 3 */
         /** Replace all mentions of the element tag */
-        // rule.selector = replaceElementTags(element, rule.selector)
+        rule.selector = replaceElementTagMentions(element, rule.selector)
       })
     }
   }
 })
 
 /**
- * finds the given pseudo selector value from
- * @param  {[type]} decls [description]
- * @param  {[type]} prop  [description]
- * @return {[type]}       [description]
+ * finds the given at declaration value
+ * @param  {Array[Object]} decls the decls from an element
+ * @param  {String}        the prop
+ * @return {Any}           the found value
  */
-function findPseudoDecl (decls, prop) {
+function findAtDecl (decls, prop) {
   const foundDecls = decls.filter((decl) => {
     return (isPlainObject(decl) &&
+          Object.keys(decl).length > 0 &&
           Object.keys(decl)[0] === `@${prop}`) || decl === `@${prop}`
   })
 
@@ -103,9 +104,7 @@ function findPseudoDecl (decls, prop) {
 
   const decl = foundDecls[0]
 
-  if (isPlainObject(decl) && Object.keys(decl).length === 0) { return }
-
-  return isPlainObject(decl) ? Object.values(decl)[0] : decl
+  return isPlainObject(decl) ? Object.values(decl)[0] : true
 }
 
 /**
@@ -143,10 +142,10 @@ function coerceElements (originalElements) {
 
     for (const [ selector, decls ] of Object.entries(originalRules)) {
       /** gather all the default values */
-      if (findPseudoDecl(decls, 'default')) defaults.push(selector)
+      if (findAtDecl(decls, 'default')) defaults.push(selector)
 
       /** gather all the pseudo selectors */
-      let pseudo = findPseudoDecl(decls, 'pseudo')
+      let pseudo = findAtDecl(decls, 'pseudo')
       if (pseudo) pseudos[pseudo] = selector
 
       /** remap the rules to always be { prop: RegExp, transform: Function } */
@@ -178,18 +177,127 @@ function findDirectElementSelectors (element, selector) {
   const selectors = simpleSelectorParser.process(selector).res
 
   return selectors.filter((selector) => {
-    let selectorNodes = selector.nodes.reverse()
+    let selectorNodes = selector.nodes.concat([]).reverse() // clone the array
 
     for (const node of selectorNodes) {
       if (node.type === 'cominator') { break }
 
-      if (node.type === 'pseudo' && node.value in element.pseudos) { break }
-
-      if (node.type === 'tag' && node.value === element.tag) {
-        return true
+      if (node.type === 'pseudo' && node.value.replace(/::?/, '') in element.pseudos) {
+        break
       }
+
+      if (node.type === 'tag' && node.value === element.tag) { return true }
     }
 
     return false
   }).map((selector) => String(selector).trim())
+}
+
+/**
+ * replace all custom element tag selectors
+ * @param  {Object} element  the element definition
+ * @param  {String} selector the selector
+ * @return {String}          the replaced selector
+ */
+function replaceElementTagMentions (element, selector) {
+  const processor = selectorParser((selectors) => {
+    let nodesToReplace = []
+
+    /**
+     * looping breaks if we replace dynamically
+     * so instead collect an array of nodes to swap and do it at the end
+     */
+    selectors.walk((node) => {
+      if (node.value === element.tag && node.type === 'tag') { nodesToReplace.push(node) }
+    })
+
+    nodesToReplace.forEach((node) => node.replaceWith(element.pseudos.root))
+  })
+
+  return processor.process(selector).result
+}
+
+/**
+ * replace all custom element pseudo selectors
+ * @param  {Object} element  the element definiton
+ * @param  {String} selector the selector
+ * @return {String}          the replaced selector
+ */
+function replaceElementPseudoMentions (element, selector) {
+  const processor = selectorParser((selectors) => {
+    let nodesToReplace = []
+    let onElementTag = false
+
+    /**
+     * looping breaks if we replace dynamically
+     * so instead collect an array of nodes to swap and do it at the end
+     */
+    selectors.walk((node) => {
+      if (node.type === 'tag' && node.value === element.tag) {
+        onElementTag = true
+      } else if (node.type === 'combinator') {
+        onElementTag = false
+      } else if (node.type === 'pseudo' && onElementTag) {
+        const matchedPseudos = Object.entries(element.pseudos).filter(([ pseudo ]) => {
+          return node.value.replace(/::?/, '') === pseudo
+        })
+
+        if (matchedPseudos.length > 0) {
+          const [, value] = matchedPseudos[0]
+          nodesToReplace.push({ node, value })
+        }
+      }
+    })
+
+    nodesToReplace.forEach(({ node, value }) => node.replaceWith(` ${value}`))
+  })
+
+  return processor.process(selector).result
+}
+
+/**
+ * expand the given rule to correctly the style the element
+ * @param {Object}       element      element The element definition
+ * @param {Array}        selectors    the matched selectors to for
+ * @return {Array[Rule]}              an array of the expanded rules
+ */
+function expandElementRule (element, selectors = [], originalRule) {
+  /** early return if we don't have any selectors */
+  if (selectors.length === 0) return []
+
+  let usedProps = []
+  let expandedRules = []
+  let defaultRules = []
+
+  /** create the base rule */
+  const baseRule = originalRule.clone()
+  baseRule.selectors = selectors
+  baseRule.selector = replaceElementTagMentions(element, baseRule.selector)
+
+  /** create postcss rules for each element rule */
+  for (const [ ruleSelector, ruleDecls ] of Object.entries(element.rules)) {
+    const isRoot = element.pseudos.root === ruleSelector
+    const isDefault = element.defaults.includes(ruleSelector)
+    const expandedRule = baseRule.clone()
+
+    /** gather all rules that get decls be default */
+    if (isDefault) { defaultRules.push(expandedRule) }
+
+    /** map all the selectors to target this rule selector */
+    if (!isRoot) { expandedRule.selectors = expandedRule.selectors.map((selector) => `${selector} ${ruleSelector}`) }
+
+    /** strip any non whitelisted props, run tranforms, gather used props */
+    expandedRule.walkDecls((decl) => {
+      const matchedRuleDecls = ruleDecls.filter(({ prop }) => prop.test(decl.prop))
+
+      if (matchedRuleDecls.length === 0) { decl.remove() }
+
+      usedProps.push(decl.prop)
+      matchedRuleDecls.forEach(({ transform }) => transform(decl, originalRule))
+    })
+
+    expandedRules.push(expandedRule)
+  }
+
+  return expandedRules
 }
