@@ -6,6 +6,15 @@
   "author": "SparkPost <dev-relations@sparkpost.com> (https://sparkpost.com)",
   "license": "MIT",
   "dependencies": {
-    "heml": "1.0.0"
+    "boxen": "^1.2.1",
+    "chalk": "^2.1.0",
+    "commander": "^2.11.0",
+    "express": "^4.16.2",
+    "fs-extra": "^4.0.2",
+    "gaze": "^1.1.2",
+    "heml": "1.0.0",
+    "log-update": "^2.1.0",
+    "open": "0.0.5",
+    "reload": "^2.2.2"
   }
 }
