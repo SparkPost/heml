@@ -290,7 +290,7 @@ function expandElementRule (element, selectors = [], originalRule) {
     expandedRule.walkDecls((decl) => {
       const matchedRuleDecls = ruleDecls.filter(({ prop }) => prop.test(decl.prop))
 
-      if (matchedRuleDecls.length === 0) { decl.remove() }
+      if (matchedRuleDecls.length === 0) { return decl.remove() }
 
       usedProps.push(decl.prop)
       matchedRuleDecls.forEach(({ transform }) => transform(decl, originalRule))
@@ -298,6 +298,12 @@ function expandElementRule (element, selectors = [], originalRule) {
 
     expandedRules.push(expandedRule)
   }
+
+  baseRule.walkDecls((decl) => {
+    if (!usedProps.includes(decl.prop)) {
+      defaultRules.forEach((defaultRule) => defaultRule.prepend(decl.clone()))
+    }
+  })
 
   return expandedRules
 }
