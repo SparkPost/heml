@@ -3,7 +3,7 @@ import inlineMargins from './inlineMargins'
 import fixImageWidths from './fixImageWidths'
 
 function inline ($, styles = '', options = {}) {
-  const { juice: juiceOptions } = options
+  const { juice: juiceOptions = {} } = options
 
   juice.inlineDocument($, styles, {
     inlinePseudoElements: true,

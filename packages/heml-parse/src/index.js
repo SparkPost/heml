@@ -9,7 +9,7 @@ function parse (contents, options = {}) {
   const {
     ignoreAttr = 'heml-ignore',
     elements = [],
-    cheerio: cheerioOptions
+    cheerio: cheerioOptions = {}
   } = options
 
   const $ = load(contents, {
@@ -33,10 +33,10 @@ function parse (contents, options = {}) {
 
   const selfClosingTags = [
     ...selfClosingHtmlTags,
-    ...elements.filter((element) => element.children === false) ]
+    ...elements.filter((element) => element.children === false).map(({ tagName }) => tagName) ]
   const wrappingTags = [
     ...wrappingHtmlTags,
-    ...elements.filter((element) => element.children !== false) ]
+    ...elements.filter((element) => element.children !== false).map(({ tagName }) => tagName) ]
 
   const selfClosingNodes = $.findNodes(selfClosingTags).reverse()
   const wrappingNodes = $.findNodes(wrappingTags).reverse()
