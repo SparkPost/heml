@@ -1,5 +1,11 @@
 import { filter, difference, keyBy, mapValues } from 'lodash'
 
+/**
+ * preRender, render, and postRender all elements
+ * @param  {Array}   elements  List of element definitons
+ * @param  {Object}  globals
+ * @return {Promise}           Returns an object with the cheerio object and metadata
+ */
 async function render ($, options = {}) {
   const elements = [];
   const metadata = {};
@@ -12,12 +18,36 @@ async function render ($, options = {}) {
   return { $, metadata };
 }
 
+/**
+ * Run the async preRender functions for each element
+ * @param  {Array}  elements  List of element definitons
+ * @param  {Object} globals
+ * @return {Promise}
+ */
 async function preRenderElements (elements, globals) {
   for (let element of elements) {
     await element.preRender(globals);
   }
 }
 
+/**
+ * Run the async postRender functions for each element
+ * @param  {Array}  elements  List of element definitons
+ * @param  {Object} globals
+ * @return {Promise}
+ */
+async function postRenderElements (elements, globals) {
+  for (let element of elements) {
+    await element.postRender(globals);
+  }
+}
+
+/**
+ * Renders all HEML elements
+ * @param  {Array}  elements  List of element definitons
+ * @param  {Object} globals
+ * @return {Promise}
+ */
 async function renderElements (elements, globals) {
   const { $ } = globals;
   const elementMap = keyBy(elements, 'tagName');
@@ -38,19 +68,7 @@ async function renderElements (elements, globals) {
 }
 
 /**
- * Run the async postRender functions for each element
- * @param  {Array}  elements  List of element definitons
- * @param  {Object} globals
- * @return {Promise}          [description]
- */
-async function postRenderElements (elements, globals) {
-  for (let element of elements) {
-    await element.postRender(globals);
-  }
-}
-
-/**
- * Pull off the attributes and content of a $node
+ * Pull off the attributes and content off a node
  * @param  {Node} $node Cheerio node
  * @return {Object}       { contents, attrs }
  */
