@@ -1,0 +1,20 @@
+{
+  "name": "@heml/styles",
+  "version": "1.0.0",
+  "description": "",
+  "main": "build/index.js",
+  "author": "SparkPost <dev-relations@sparkpost.com> (https://sparkpost.com)",
+  "license": "MIT",
+  "dependencies": {
+    "lodash": "^4.17.4",
+    "postcss": "^6.0.13",
+    "postcss-calc": "^6.0.0",
+    "postcss-color-rgba-fallback": "^3.0.0",
+    "postcss-colornames-to-hex": "^1.0.1",
+    "postcss-email-important": "^1.0.0",
+    "postcss-hex-format": "^1.0.0",
+    "postcss-rgba-hex": "^0.3.7",
+    "postcss-safe-parser": "^3.0.1",
+    "postcss-shorthand-expand": "^1.0.1"
+  }
+}
