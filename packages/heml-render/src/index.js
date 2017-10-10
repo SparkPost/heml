@@ -7,15 +7,18 @@ import { filter, difference, keyBy, mapValues } from 'lodash'
  * @return {Promise}           Returns an object with the cheerio object and metadata
  */
 async function render ($, options = {}) {
-  const elements = [];
-  const metadata = {};
-  const globals = { $, metadata };
+  const {
+    elements = []
+  } = options
+
+  const metadata = {}
+  const globals = { $, metadata }
 
   await preRenderElements(elements, globals)
   await renderElements(elements, globals)
   await postRenderElements(elements, globals)
 
-  return { $, metadata };
+  return { $, metadata }
 }
 
 /**
@@ -26,7 +29,7 @@ async function render ($, options = {}) {
  */
 async function preRenderElements (elements, globals) {
   for (let element of elements) {
-    await element.preRender(globals);
+    await element.preRender(globals)
   }
 }
 
@@ -38,7 +41,7 @@ async function preRenderElements (elements, globals) {
  */
 async function postRenderElements (elements, globals) {
   for (let element of elements) {
-    await element.postRender(globals);
+    await element.postRender(globals)
   }
 }
 
@@ -49,21 +52,35 @@ async function postRenderElements (elements, globals) {
  * @return {Promise}
  */
 async function renderElements (elements, globals) {
-  const { $ } = globals;
-  const elementMap = keyBy(elements, 'tagName');
-  const metaTagNames = filter(allElementMap, { parent: [ 'head' ] }).map(({ tagName }) => tagName);
-  const nonMetaTagNames = difference(elements.map(({ tagName }) => tagName), metaTagNames);
+  const { $ } = globals
+  const elementMap = keyBy(elements, 'tagName')
+  const metaTagNames = filter(elements, { parent: [ 'head' ] }).map(({ tagName }) => tagName)
+  const nonMetaTagNames = difference(elements.map(({ tagName }) => tagName), metaTagNames)
 
   const $nodes = [
     ...$.findNodes(metaTagNames), /** Render the meta elements first */
     ...$.findNodes(nonMetaTagNames).reverse() /** Render the elements last to first */
-  ];
+  ]
 
   for (let $node of $nodes) {
-    const element = elementMap[$node[0].tagName];
-    const { contents, attrs } = serializeNode($node);
+    const element = elementMap[$node[0].tagName]
+    const { contents, attrs } = serializeNode($node)
 
-    await element.render(attrs, contents, globals);
+    const renderedValue = await element.render(attrs, contents, globals)
+
+    switch (renderedValue) {
+      case false:
+        $node.remove()
+        break
+
+      case true:
+        // do nothing
+        break
+
+      default:
+        $node.replaceWith(renderedValue.trim())
+        break
+    }
   }
 }
 
@@ -72,23 +89,17 @@ async function renderElements (elements, globals) {
  * @param  {Node} $node Cheerio node
  * @return {Object}       { contents, attrs }
  */
-function serializeNode($node) {
-  const contents = $node.html();
+function serializeNode ($node) {
+  const contents = $node.html()
   const attrs = mapValues($node[0].attribs, (value) => {
-    if (value === '' || value === 'true' || value === 'on')
-      return true
+    if (value === '' || value === 'true' || value === 'on') { return true }
 
-    if (value === 'false' || value === 'off')
-      return false
+    if (value === 'false' || value === 'off') { return false }
 
     return value
-  });
+  })
 
-  return { contents, attrs };
+  return { contents, attrs }
 }
-
-(async function() {
-  console.log(await render({a: '1'}, {}));
-})();
 
 export default render

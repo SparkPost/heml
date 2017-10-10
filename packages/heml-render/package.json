@@ -4,5 +4,8 @@
   "description": "",
   "main": "build/index.js",
   "author": "SparkPost <dev-relations@sparkpost.com> (https://sparkpost.com)",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "lodash": "^4.17.4"
+  }
 }
