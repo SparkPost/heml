@@ -6,9 +6,10 @@
   "author": "SparkPost <dev-relations@sparkpost.com> (https://sparkpost.com)",
   "license": "MIT",
   "dependencies": {
+    "cssnano": "^3.10.0",
+    "cssnano-preset-advanced": "^4.0.0-rc.2",
     "lodash": "^4.17.4",
     "postcss": "^6.0.13",
-    "postcss-calc": "^6.0.0",
     "postcss-color-rgba-fallback": "^3.0.0",
     "postcss-colornames-to-hex": "^1.0.1",
     "postcss-email-important": "^1.0.0",

@@ -4,7 +4,7 @@ import postcss from 'postcss'
 import safeParser from 'postcss-safe-parser'
 
 // third party plugins
-import calc from 'postcss-calc'
+import cssnano from 'cssnano'
 import rgbToHex from 'postcss-rgba-hex'
 import colorNamesToHex from 'postcss-colornames-to-hex'
 import rgbaFallback from 'postcss-color-rgba-fallback'
@@ -16,17 +16,22 @@ import shorthandExpand from './plugins/postcss-shorthand-expand'
 import elementExpander from '.plugins/postcss-element-expander'
 
 function hemlstyles (contents, options = {}) {
-  const elements = options.elements || {}
-  const aliases = options.aliases || {}
-  const plugins = options.plugins || []
-  const $dom = options.$dom || null
+  const {
+    cssnano: cssnanoOptions = {}
+    elements = [],
+    plugins = [],
+    $ = null
+  } = options
 
   return postcss(plugins.concat([
-    // expand margin, background,
-    shorthandExpand(),
+    // minify css
+    cssnano({
+      preset: ['advanced'],
+      ...cssnanoOptions
+    }),
 
-    // trying to make calc work
-    calc(),
+    // expand margin, background, font
+    shorthandExpand(),
 
     // color handling
     colorNamesToHex(),
@@ -35,9 +40,9 @@ function hemlstyles (contents, options = {}) {
     formatHexColors(),
 
     // // expanding to match heml things
-    elementExpander({ elements, aliases, $dom }),
+    elementExpander({ elements, $ }),
 
-    // making important work
+    // making important work in email
     emailImportant()
   ]))
   .process(contents, { parser: safeParser })
