@@ -47,10 +47,10 @@ function parse (contents, options = {}) {
     $node.html('')
   })
 
-  /** ensure that all wrapping tags have at least a single space */
+  /** ensure that all wrapping tags have at least a zero-width, non-joining character */
   wrappingNodes.forEach(($node) => {
     if ($node.html().length === 0) {
-      $node.text(' ')
+      $node.html('&zwnj;')
     }
   })
 
