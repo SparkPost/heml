@@ -1,0 +1,12 @@
+{
+  "name": "@heml/inline",
+  "version": "1.0.0",
+  "description": "",
+  "main": "build/index.js",
+  "author": "SparkPost <dev-relations@sparkpost.com> (https://sparkpost.com)",
+  "license": "MIT",
+  "dependencies": {
+    "juice": "^4.2.0",
+    "lodash": "^4.17.4"
+  }
+}
