@@ -13,7 +13,9 @@ async function render ($, options = {}) {
 }
 
 async function preRenderElements (elements, globals) {
-  elements.forEach(async (element) => await element.preRender(globals))
+  for (let element of elements) {
+    await element.preRender(globals);
+  }
 }
 
 async function renderElements (elements, globals) {
@@ -27,12 +29,12 @@ async function renderElements (elements, globals) {
     ...$.findNodes(nonMetaTagNames).reverse() /** Render the elements last to first */
   ];
 
-  $nodes.forEach(async ($node) => {
+  for (let $node of $nodes) {
     const element = elementMap[$node[0].tagName];
     const { contents, attrs } = serializeNode($node);
 
     await element.render(attrs, contents, globals);
-  })
+  }
 }
 
 /**
@@ -42,7 +44,9 @@ async function renderElements (elements, globals) {
  * @return {Promise}          [description]
  */
 async function postRenderElements (elements, globals) {
-  return elements.forEach(async (element) => await element.postRender(globals))
+  for (let element of elements) {
+    await element.postRender(globals);
+  }
 }
 
 /**
