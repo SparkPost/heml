@@ -5,7 +5,7 @@ import selfClosingHtmlTags from 'html-tags/void'
 
 const wrappingHtmlTags = difference(htmlTags, selfClosingHtmlTags)
 
-function parser (contents, options = {}) {
+function parse (contents, options = {}) {
   const {
     ignoreAttr = 'heml-ignore',
     elements = [],
@@ -57,4 +57,4 @@ function parser (contents, options = {}) {
   return $
 }
 
-export default parser
+export default parse

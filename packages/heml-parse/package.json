@@ -1,5 +1,5 @@
 {
-  "name": "@heml/parser",
+  "name": "@heml/parse",
   "version": "1.0.0",
   "description": "",
   "main": "build/index.js",
