@@ -42,7 +42,7 @@ function getSideMargins (style) {
     if (prop === 'margin-right') { return right = value }
 
     if (prop === 'margin') {
-      const values = _.map(value.split(' '), _.trim)
+      const values = value.split(' ').map((i) => i.trim())
 
       switch (values.length) {
         case 1:

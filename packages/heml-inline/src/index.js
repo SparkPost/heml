@@ -1,13 +1,19 @@
-import _ from 'lodash'
 import juice from 'juice'
+import inlineMargins from './inlineMargins'
+import fixImageWidths from './fixImageWidths'
 
-function inline($, styles = '', options = {}) {
+function inline ($, styles = '', options = {}) {
   const { juice: juiceOptions } = options
 
-   juice.inlineDocument($dom, styles, {
+  juice.inlineDocument($, styles, {
     inlinePseudoElements: true,
     ...juiceOptions
-   });
+  })
+
+  inlineMargins($)
+  fixImageWidths($)
+
+  return $
 }
 
 export default inline
