@@ -32,14 +32,20 @@ function getSideMargins (style) {
       prop: first(split).trim().toLowerCase(),
       value: last(split).trim().toLowerCase()
     }
-  }).filter({ prop, value }) => prop.indexOf('margin') === 0)
+  }).filter(({ prop, value }) => prop.indexOf('margin') === 0)
 
-
-  let left = 0, right = 0
+  let left = 0
+  let right = 0
   margins.forEach(({ prop, value }) => {
-    if (prop === 'margin-left') { return left = value }
+    if (prop === 'margin-left') {
+      left = value
+      return
+    }
 
-    if (prop === 'margin-right') { return right = value }
+    if (prop === 'margin-right') {
+      right = value
+      return
+    }
 
     if (prop === 'margin') {
       const values = value.split(' ').map((i) => i.trim())
@@ -48,22 +54,22 @@ function getSideMargins (style) {
         case 1:
           right = first(values)
           left = first(values)
-          break;
+          break
 
         case 2:
           right = last(values)
           left = last(values)
-          break;
+          break
 
         case 3:
           right = nth(values, 1)
           left = nth(values, 1)
-          break;
+          break
 
         default:
           right = nth(values, 1)
           left = nth(values, 3)
-          break;
+          break
       }
     }
   })
