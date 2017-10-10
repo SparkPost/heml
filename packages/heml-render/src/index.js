@@ -35,10 +35,21 @@ async function renderElements (elements, globals) {
   })
 }
 
+/**
+ * Run the async postRender functions for each element
+ * @param  {Array}  elements  List of element definitons
+ * @param  {Object} globals
+ * @return {Promise}          [description]
+ */
 async function postRenderElements (elements, globals) {
-  elements.forEach(async (element) => await element.postRender(globals))
+  return elements.forEach(async (element) => await element.postRender(globals))
 }
 
+/**
+ * Pull off the attributes and content of a $node
+ * @param  {Node} $node Cheerio node
+ * @return {Object}       { contents, attrs }
+ */
 function serializeNode($node) {
   const contents = $node.html();
   const attrs = mapValues($node[0].attribs, (value) => {
@@ -51,7 +62,7 @@ function serializeNode($node) {
     return value
   });
 
-  return { content, attrs };
+  return { contents, attrs };
 }
 
 (async function() {
