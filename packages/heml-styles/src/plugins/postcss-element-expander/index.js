@@ -19,12 +19,21 @@ const simpleSelectorParser = selectorParser()
  */
 
 /**
+ * aliases var looks like this
+ *
+ * {
+ *   button: [ $node, $node, $node, ... ]
+ *   ...
+ * }
+ */
+
+/**
  * Convert CSS to match custom elements
  * @param  {Object} options.elements An object of elements that define how to
  *                                   split up the css for each element
  * @param  {[type]} options.$        A cheerio instance
  */
-export default postcss.plugin('postcss-element-expander', ({ elements, $ }) => {
+export default postcss.plugin('postcss-element-expander', ({ elements, aliases }) => {
   /**
    * remap the elements var to looks like this
    * [
@@ -48,7 +57,9 @@ export default postcss.plugin('postcss-element-expander', ({ elements, $ }) => {
        * add the element tag to any css selectors that implicitly target an element
        * .i.e. #my-button that selects <button id="my-button">click me</button>
        */
-      // attachTagsToElementSelectors(element, $)
+      root.walkRules((rule) => {
+        tagAliasSelectors(element, aliases[element.tag], rule)
+      });
 
       /**
        * There are 3 (non-mutually exclusive) possibilities when it contains the element tag
@@ -86,6 +97,51 @@ export default postcss.plugin('postcss-element-expander', ({ elements, $ }) => {
     }
   }
 })
+
+
+function appendElementSelector(element, selector) {
+  const processor = selectorParser((selectors) => {
+    let combinatorNode = null
+
+    /**
+     * looping breaks if we insert dynamically
+     */
+    selectors.each((selector) => {
+      const elementNode = selectorParser.tag({ value: element.tag });
+      selector.walk((node) => {
+        if (node.type === 'combinator') { combinatorNode = node }
+      })
+
+
+      if (combinatorNode) {
+        selector.insertAfter(combinatorNode, elementNode)
+      }
+      else {
+        selector.prepend(elementNode)
+      }
+    })
+  })
+
+  return processor.process(selector).result
+}
+
+
+function tagAliasSelectors (element, aliases, rule) {
+  if (!aliases) return
+
+  let taggedSelectors = []
+
+  rule.selectors.forEach((selector) => {
+    const matchedAliases = aliases.filter((alias) => alias.is(selector.replace(/::?\S*/g, ''))).length > 0;
+
+    /** the selector in an alias that doesn't target the tag already */
+    if (matchedAliases && findDirectElementSelectors(element, selector).length === 0) {
+      taggedSelectors.push(appendElementSelector(element, selector))
+    }
+  })
+
+  rule.selectors = rule.selectors.concat(taggedSelectors)
+}
 
 /**
  * finds the given at declaration value
