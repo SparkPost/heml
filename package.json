@@ -2,12 +2,13 @@
 	"private": true,
 	"scripts": {
 		"lint": "standard 'packages/**/src/**/*.js' --fix",
-    "precommit": "npm run lint"
+		"precommit": "npm run lint"
 	},
 	"devDependencies": {
 		"babel-cli": "^6.26.0",
 		"babel-plugin-transform-async-to-generator": "^6.24.1",
 		"babel-plugin-transform-object-rest-spread": "^6.26.0",
+		"babel-plugin-transform-react-jsx": "^6.24.1",
 		"babel-plugin-transform-runtime": "^6.23.0",
 		"babel-preset-env": "^1.6.0",
 		"gulp": "^3.9.1",
@@ -19,5 +20,8 @@
 		"lerna": "^2.4.0",
 		"standard": "^10.0.3",
 		"through2": "^2.0.3"
+	},
+	"dependencies": {
+		"lodash": "^4.17.4"
 	}
 }
