@@ -1,7 +1,6 @@
-'use strict'
-
 import { omit, pick } from 'lodash'
 import { createElement, renderElement, utils } from 'heml' // eslint-disable-line no-unused-vars
+import Style from './style'
 const {
   background,
   margin,
@@ -40,7 +39,7 @@ export default createElement('button', {
 
   render (attrs, contents) {
     return (
-      <div {...omit(attrs, [ 'href', 'target', 'class' ])} class={[...attrs.class, 'button']}>
+      <div {...omit(attrs, [ 'href', 'target', 'class' ])} class={[attrs.class, 'button']}>
         <table role='presentation' width='100%' align='left' border='0' cellpadding='0' cellspacing='0'>
           <tr>
             <td>
@@ -56,20 +55,20 @@ export default createElement('button', {
             </td>
           </tr>
         </table>
-        <style for='button'>{`
-        button {
-          margin: auto;
-          border-radius: 3px;
-          padding: 6px 12px;
-          background-color: #2097e4;
-          color: #ffffff;
-          text-decoration: none;
-        }
+        <Style for='button'>{`
+          button {
+            margin: auto;
+            border-radius: 3px;
+            padding: 6px 12px;
+            background-color: #2097e4;
+            color: #ffffff;
+            text-decoration: none;
+          }
 
-        .button__link {
-          display: inline-block;
-        }
-      `}</style>
+          .button__link {
+            display: inline-block;
+          }
+        `}</Style>
       </div>)
   }
 })
