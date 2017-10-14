@@ -1,4 +1,7 @@
-import { filter, difference, keyBy, mapValues } from 'lodash'
+import { filter, difference, keyBy } from 'lodash'
+import renderElement from './renderElement'
+
+export { renderElement }
 
 /**
  * preRender, render, and postRender all elements
@@ -6,7 +9,7 @@ import { filter, difference, keyBy, mapValues } from 'lodash'
  * @param  {Object}  globals
  * @return {Promise}           Returns an object with the cheerio object and metadata
  */
-async function render ($, options = {}) {
+export default async function render ($, options = {}) {
   const {
     elements = []
   } = options
@@ -64,9 +67,10 @@ async function renderElements (elements, globals) {
 
   for (let $node of $nodes) {
     const element = elementMap[$node[0].tagName]
-    const { contents, attrs } = serializeNode($node)
+    const contents = $node.html()
+    const attrs = $node[0].attribs
 
-    const renderedValue = await element.render(attrs, contents, globals)
+    const renderedValue = await Promise.resolve(renderElement(element, attrs, contents))
 
     switch (renderedValue) {
       case false:
@@ -83,23 +87,3 @@ async function renderElements (elements, globals) {
     }
   }
 }
-
-/**
- * Pull off the attributes and content off a node
- * @param  {Node} $node Cheerio node
- * @return {Object}       { contents, attrs }
- */
-function serializeNode ($node) {
-  const contents = $node.html()
-  const attrs = mapValues($node[0].attribs, (value) => {
-    if (value === '' || value === 'true' || value === 'on') { return true }
-
-    if (value === 'false' || value === 'off') { return false }
-
-    return value
-  })
-
-  return { contents, attrs }
-}
-
-export default render

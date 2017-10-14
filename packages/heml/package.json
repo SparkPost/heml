@@ -6,7 +6,11 @@
   "author": "SparkPost <dev-relations@sparkpost.com> (https://sparkpost.com)",
   "license": "MIT",
   "dependencies": {
-    "heml-parse": "1.0.0",
-    "heml-render": "1.0.0"
+    "@heml/inline": "1.0.0",
+    "@heml/parse": "1.0.0",
+    "@heml/render": "1.0.0",
+    "byte-length": "^0.1.1",
+    "js-beautify": "^1.7.4",
+    "lodash": "^4.17.4"
   }
 }
