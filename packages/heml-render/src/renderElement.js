@@ -1,6 +1,7 @@
 import stringifyAttributes from 'stringify-attributes'
 import isPromise from 'is-promise'
 import { isString, isArray, defaults, mapValues, castArray } from 'lodash'
+import selfClosingHtmlTags from 'html-tags/void'
 
 export default function (name, attrs, contents) {
   if (!isString(name)) {
@@ -39,5 +40,9 @@ export default function (name, attrs, contents) {
   }
 
   /** if we have a regular ol element go ahead and convert it to a string */
+  if (selfClosingHtmlTags.includes(name)) {
+    return `<${name}${attrs ? stringifyAttributes(attrs) : ''} />`
+  }
+
   return `<${name}${attrs ? stringifyAttributes(attrs) : ''}>${contents || '&zwnj;'}</${name}>`
 }
