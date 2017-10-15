@@ -7,7 +7,7 @@
   "license": "MIT",
   "dependencies": {
     "css-shorthand-expand": "^1.1.0",
-    "cssnano": "^3.10.0",
+    "cssnano": "^4.0.0-rc.2",
     "cssnano-preset-advanced": "^4.0.0-rc.2",
     "lodash": "^4.17.4",
     "postcss": "^6.0.13",

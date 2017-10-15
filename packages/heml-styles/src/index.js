@@ -19,82 +19,43 @@ async function hemlstyles (contents, options = {}) {
   const {
     cssnano: cssnanoOptions = {},
     elements = {},
-    plugins = [],
-    $ = null
-    // ignoreAttr = 'heml-ignore'
+    aliases = {},
+    plugins = []
   } = options
 
   return postcss(plugins.concat([
-    // minify css
+    /** minify css */
     cssnano({
       preset: ['advanced', {
         discardComments: { exclude: true },
-        minifyGradients: { exclude: true },
         reduceInitial: { exclude: true },
-        svgo: { exclude: true },
-        normalizeDisplayValues: { exclude: true },
         reduceTransforms: { exclude: true },
         colormin: { exclude: true },
-        normalizeTimingFunctions: { exclude: true },
-        calc: { exclude: true },
-        convertValues: { exclude: true },
-        orderedValues: { exclude: true },
         minifySelectors: { exclude: true },
-        minifyParams: { exclude: true },
-        normalizeCharset: { exclude: true },
-        discardOverridden: { exclude: true },
-        normalizeString: { exclude: true },
-        normalizeUnicode: { exclude: true },
         minifyFontValues: { exclude: true },
-        normalizeUrl: { exclude: true },
-        normalizeRepeatStyle: { exclude: true },
-        normalizePositions: { exclude: true },
         normalizeWhitespace: { exclude: true },
-        mergeLonghand: { exclude: true },
-        discardDuplicates: { exclude: true },
-        mergeRules: { exclude: true },
-        discardEmpty: { exclude: true },
-        uniqueSelectors: { exclude: true },
-        cssDeclarationSorter: { exclude: true },
-        rawCache: { exclude: true }
+        rawCache: { exclude: true },
+        zindex: { exclude: true }
       }],
       ...cssnanoOptions
     }),
 
-    // expand margin, background, font
+    /** expand margin, background, font */
     shorthandExpand(),
 
-    // color handling
+    /** color handling */
     colorNamesToHex(),
     rgbToHex({ rgbOnly: true, silent: true }),
     rgbaFallback(),
     formatHexColors(),
 
-    // // expanding to match heml things
-    elementExpander({ elements, $ }),
+    /** making important work in yahoo */
+    emailImportant(),
 
-    // making important work in email
-    emailImportant()
+    /** expanding to match heml elements */
+    elementExpander({ elements, aliases })
   ]))
   .process(contents, { parser: safeParser })
 }
-
-(async function () {
-  const results = await hemlstyles(`
-    button {
-      background: blue;
-      color: white;
-    }
-  `, {
-    elements: {
-      button: {
-        '.button': [ { '@pseudo': 'root' }, { '@default': true }, 'background-color' ],
-        '.text': [ { '@pseudo': 'text' }, { color: function () {} } ]
-      }
-    }
-  })
-
-  console.log(results.css)
-})()
 
 export default hemlstyles
