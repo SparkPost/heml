@@ -72,18 +72,6 @@ async function renderElements (elements, globals) {
 
     const renderedValue = await Promise.resolve(renderElement(element, attrs, contents))
 
-    switch (renderedValue) {
-      case false:
-        $node.remove()
-        break
-
-      case true:
-        // do nothing
-        break
-
-      default:
-        $node.replaceWith(renderedValue.trim())
-        break
-    }
+    $node.replaceWith(renderedValue.trim())
   }
 }
