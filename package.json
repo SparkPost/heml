@@ -20,8 +20,5 @@
 		"lerna": "^2.4.0",
 		"standard": "^10.0.3",
 		"through2": "^2.0.3"
-	},
-	"dependencies": {
-		"lodash": "^4.17.4"
 	}
 }
