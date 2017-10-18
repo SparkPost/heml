@@ -1,9 +1,16 @@
 import stringifyAttributes from 'stringify-attributes'
 import isPromise from 'is-promise'
-import { isPlainObject, defaults, mapValues, castArray, compact } from 'lodash'
+import { isPlainObject, defaults, mapValues, castArray, compact, flattenDeep } from 'lodash'
 import selfClosingHtmlTags from 'html-tags/void'
 
-export default function (name, attrs, contents) {
+export default function (name, attrs, ...contents) {
+  /** catch all promises in this content and wait for them to finish */
+  if (contents.filter(isPromise).length > 0) { return Promise.all(contents).then((contents) => render(name, attrs, contents.join(''))) }
+
+  return render(name, attrs, contents.join(''))
+}
+
+function render (name, attrs, contents) {
   if (!name || (isPlainObject(name) && !name.render)) {
     throw new Error(`name must be a HEML element or HTML tag name (.e.g 'td'). Received: ${JSON.stringify(name)}`)
   }
@@ -40,13 +47,17 @@ export default function (name, attrs, contents) {
     }
 
     /** otherwise, combine the array of promises/strings into a single string */
-    return Promise.all(renderResults).then((results) => compact(results).join(''))
+    return Promise.all(renderResults).then((results) => {
+      return compact(flattenDeep(results)).join('')
+    })
   }
 
   /** if we have a regular ol element go ahead and convert it to a string */
+  if (attrs && attrs.class === '') { delete attrs.class }
+
   if (selfClosingHtmlTags.includes(name)) {
     return `<${name}${attrs ? stringifyAttributes(attrs) : ''} />`
   }
 
-  return `<${name}${attrs ? stringifyAttributes(attrs) : ''}>${contents || '&zwnj;'}</${name}>`
+  return `<${name}${attrs ? stringifyAttributes(attrs) : ''}>${contents || ' '}</${name}>`
 }

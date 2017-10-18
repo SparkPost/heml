@@ -50,7 +50,7 @@ function parse (contents, options = {}) {
   /** ensure that all wrapping tags have at least a zero-width, non-joining character */
   wrappingNodes.forEach(($node) => {
     if ($node.html().length === 0) {
-      $node.html('&zwnj;')
+      $node.html(' ')
     }
   })
 
