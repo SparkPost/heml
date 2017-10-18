@@ -1,4 +1,4 @@
-import { filter, difference, keyBy } from 'lodash'
+import { filter, difference, keyBy, first } from 'lodash'
 import renderElement from './renderElement'
 
 export { renderElement }
@@ -14,14 +14,14 @@ export default async function render ($, options = {}) {
     elements = []
   } = options
 
-  const metadata = {}
-  const globals = { $, metadata }
+  const globals = { $, elements }
+  const Meta = first(elements.filter(({ tagName }) => tagName === 'meta'))
 
   await preRenderElements(elements, globals)
   await renderElements(elements, globals)
   await postRenderElements(elements, globals)
 
-  return { $, metadata }
+  return { $, metadata: Meta ? Meta.flush() : {} }
 }
 
 /**
@@ -61,7 +61,7 @@ async function renderElements (elements, globals) {
   const nonMetaTagNames = difference(elements.map(({ tagName }) => tagName), metaTagNames)
 
   const $nodes = [
-    ...$.findNodes(metaTagNames), /** Render the meta elements first */
+    ...$.findNodes(metaTagNames), /** Render the meta elements first to last */
     ...$.findNodes(nonMetaTagNames).reverse() /** Render the elements last to first */
   ]
 
