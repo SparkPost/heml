@@ -13,6 +13,7 @@
     "postcss": "^6.0.13",
     "postcss-color-rgba-fallback": "^3.0.0",
     "postcss-colornames-to-hex": "^1.0.1",
+    "postcss-discard-duplicates": "^2.1.0",
     "postcss-email-important": "^1.0.0",
     "postcss-hex-format": "^1.0.0",
     "postcss-rgba-hex": "^0.3.7",
