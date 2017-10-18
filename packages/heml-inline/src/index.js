@@ -2,11 +2,10 @@ import juice from 'juice'
 import inlineMargins from './inlineMargins'
 import fixImageWidths from './fixImageWidths'
 
-function inline ($, styles = '', options = {}) {
+function inline ($, options = {}) {
   const { juice: juiceOptions = {} } = options
 
-  juice.inlineDocument($, styles, {
-    inlinePseudoElements: true,
+  juice.juiceDocument($, {
     ...juiceOptions
   })
 
