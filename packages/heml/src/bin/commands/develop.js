@@ -60,16 +60,17 @@ export default async function develop (file, options) {
 
 /**
  * update the cli UI
- * @param  {String} url       URL for preview server
- * @param  {String} status    the current status
- * @param  {String} totalTime time to compile the heml
- * @param  {String} size      size of the HTML in mb
+ * @param  {String} params.url     URL for preview server
+ * @param  {String} params.status  the current status
+ * @param  {String} params.time    time to compile the heml
+ * @param  {String} params.size    size of the HTML in mb
  */
-function renderCLI ({ url, status, size }) {
+function renderCLI ({ url, status, time, size }) {
   return logUpdate(boxen(
     `${chalk.bgBlue.black(' HEML ')}\n\n` +
     `- ${chalk.bold('Preview:')}         ${url}\n` +
     `- ${chalk.bold('Status:')}          ${status}\n` +
+    `- ${chalk.bold('Compile time:')}    ${time}\n` +
     `- ${chalk.bold('Total size:')}      ${size}`,
     { padding: 1, margin: 1 }))
 }
@@ -94,7 +95,7 @@ function startDevServer (directory, port = 3000) {
       ? buildErrorPage(errors)
       : html.replace('</body>', '<script src="/reload/reload.js"></script></body>')
 
-    renderCLI({ url, status, size: metadata.size })
+    renderCLI({ url, status, time: metadata.time, size: metadata.size })
     reload()
   }
 
