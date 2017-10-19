@@ -1,0 +1,13 @@
+{
+  "name": "@heml/utils",
+  "version": "1.0.0",
+  "description": "",
+  "main": "build/index.js",
+  "author": "SparkPost <dev-relations@sparkpost.com> (https://sparkpost.com)",
+  "license": "MIT",
+  "dependencies": {
+    "@heml/render": "1.0.0",
+    "css-groups": "^0.1.1",
+    "lodash": "^4.17.4"
+  }
+}
