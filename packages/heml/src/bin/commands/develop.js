@@ -5,6 +5,7 @@ import openUrl from 'open'
 import logUpdate from 'log-update'
 import boxen from 'boxen'
 import gaze from 'gaze'
+import getPort from 'get-port'
 import chalk, { red as error, yellow as code } from 'chalk'
 import isHemlFile from '../utils/isHemlFile'
 import renderHemlFile from '../utils/renderHemlFile'
@@ -20,6 +21,7 @@ async function develop (file, options) {
     open = false
   } = options
 
+  /** require .heml extention */
   if (!isHemlFile(file)) {
     log(`${error('ERROR')} ${file} must have ${code('.heml')} extention`)
     process.exit(1)
@@ -32,6 +34,7 @@ async function develop (file, options) {
 
     if (open) openUrl(url)
 
+    /** watch for file changes */
     gaze(filepath, function (err) {
       if (err) throw err
 
@@ -64,7 +67,7 @@ async function develop (file, options) {
  */
 function renderCLI ({ url, status, size }) {
   return logUpdate(boxen(
-    `${chalk.bgBlue.black('HEML')}\n\n` +
+    `${chalk.bgBlue.black(' HEML ')}\n\n` +
     `- ${chalk.bold('Preview:')}         ${url}\n` +
     `- ${chalk.bold('Status:')}          ${status}\n` +
     `- ${chalk.bold('Total size:')}      ${size}`,
@@ -77,12 +80,11 @@ function renderCLI ({ url, status, size }) {
  * @return {Object}                 { server, port, update }
  */
 function startDevServer (directory, port = 3000) {
-  const url = `http://localhost:${port}`
+  let url
   const app = express()
   const { reload } = reloadServer(app)
   let preview = ''
 
-  app.listen(port)
   app.use(express.static(directory))
   app.get('/', (req, res) => res.send(preview))
 
@@ -96,7 +98,15 @@ function startDevServer (directory, port = 3000) {
     reload()
   }
 
-  return { update, url, app }
+  return new Promise((resolve, reject) => {
+    getPort({ port }).then((availablePort) => {
+      url = `http://localhost:${availablePort}`
+
+      app.listen(availablePort, () => resolve({ update, url, app }))
+    })
+
+    process.on('uncaughtException', reject)
+  })
 }
 
 export default develop

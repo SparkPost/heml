@@ -2,11 +2,13 @@ import parse from '@heml/parse'
 import render from '@heml/render'
 import inline from '@heml/inline'
 import validate from '@heml/validate'
+import { utils } from '@heml/utils'
 import byteLength from 'byte-length'
 import { html as beautify } from 'js-beautify'
 import { toArray, flattenDeep } from 'lodash'
 import * as coreElements from '@heml/elements'
-import { replace as conditionalReplace } from './utils/condition'
+
+const { replace: conditionalReplace } = utils
 
 async function heml (contents, options = {}) {
   const results = {}
@@ -24,6 +26,7 @@ async function heml (contents, options = {}) {
   const errors = validate($heml, options)
   if (validateOption.toLowerCase() === 'strict' && errors.length > 0) { throw errors[0] }
   if (validateOption.toLowerCase() === 'soft') { results.errors = errors }
+
 
   /** render it 🤖 */
   const {
@@ -50,4 +53,4 @@ async function heml (contents, options = {}) {
   return results
 }
 
-export default heml
+module.exports = heml

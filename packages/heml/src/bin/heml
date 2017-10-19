@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import cli from 'commander'
 import develop from './commands/develop'
 import build from './commands/build'
@@ -9,7 +11,7 @@ cli
 
 cli
   .command('develop <file>')
-  .description('Develop your email.')
+  .description('Develop your email locally.')
   .option('--open', 'Open the email in your browser')
   .option('-p, --port', 'Port for server', 3000)
   .action(develop)
