@@ -66,7 +66,7 @@ async function renderElements (elements, globals) {
   ]
 
   for (let $node of $nodes) {
-    const element = elementMap[$node[0].tagName]
+    const element = elementMap[$node.prop('tagName').toLowerCase()]
     const contents = $node.html()
     const attrs = $node[0].attribs
 
