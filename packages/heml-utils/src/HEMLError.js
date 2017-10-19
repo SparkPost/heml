@@ -7,28 +7,27 @@ export default class HEMLError extends Error {
 
     if ($node) {
       this.$node = $node
+      this.selector = buildExactSelector($node)
     }
 
     Error.captureStackTrace(this, HEMLError)
   }
+}
 
-  get selector () {
-    if (!this.$node) { return }
-
-    const nodeSelector = buildSelector(this.$node[0])
-    const strSelector = this.$node.parents()
+function buildExactSelector ($node) {
+  const nodeSelector = buildSelector($node[0])
+  const strSelector = $node.parents()
       .map((index, node) => buildSelector(node))
       .toArray()
       .reverse()
       .concat([nodeSelector])
       .join(' > ')
 
-    const chopAfter = min(max(0, strSelector.lastIndexOf('#')),
+  const chopAfter = min(max(0, strSelector.lastIndexOf('#')),
       max(0, strSelector.lastIndexOf('html')),
       max(0, strSelector.lastIndexOf('heml')))
 
-    return strSelector.substr(chopAfter)
-  }
+  return strSelector.substr(chopAfter)
 }
 
 function buildSelector (node) {
