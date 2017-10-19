@@ -3,7 +3,7 @@
 import cli from 'commander'
 import develop from './commands/develop'
 import build from './commands/build'
-import { version } from '../package'
+import { version } from '../../package'
 
 cli
   .usage('<command> [options]')

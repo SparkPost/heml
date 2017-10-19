@@ -14,7 +14,7 @@ import buildErrorPage from '../utils/buildErrorPage'
 const errorBlock = chalk.bgRed.white
 const { log } = console
 
-async function develop (file, options) {
+export default async function develop (file, options) {
   const filepath = path.join(process.cwd(), file)
   const {
     port = 3000,
@@ -108,5 +108,3 @@ function startDevServer (directory, port = 3000) {
     process.on('uncaughtException', reject)
   })
 }
-
-export default develop

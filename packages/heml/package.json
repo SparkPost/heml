@@ -6,7 +6,7 @@
   "author": "SparkPost <dev-relations@sparkpost.com> (https://sparkpost.com)",
   "license": "MIT",
   "bin": {
-    "heml": "./build/bin/heml"
+    "heml": "./build/bin/heml.js"
   },
   "dependencies": {
     "@heml/elements": "1.0.0",

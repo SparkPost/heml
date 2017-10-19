@@ -13,9 +13,9 @@ function condition (condition, content) {
 }
 
 condition.replace = function (html) {
-  parts.forEach((replace, search) => {
+  for (let [search, replace] of Object.entries(parts)) {
     html = html.replace(new RegExp(search, 'g'), replace)
-  })
+  }
 
   return html
 }

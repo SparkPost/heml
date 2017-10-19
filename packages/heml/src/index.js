@@ -8,7 +8,7 @@ import { html as beautify } from 'js-beautify'
 import { toArray, flattenDeep } from 'lodash'
 import * as coreElements from '@heml/elements'
 
-const { replace: conditionalReplace } = utils
+const { condition } = utils
 
 async function heml (contents, options = {}) {
   const results = {}
@@ -27,7 +27,6 @@ async function heml (contents, options = {}) {
   if (validateOption.toLowerCase() === 'strict' && errors.length > 0) { throw errors[0] }
   if (validateOption.toLowerCase() === 'soft') { results.errors = errors }
 
-
   /** render it 🤖 */
   const {
     $: $html,
@@ -38,7 +37,7 @@ async function heml (contents, options = {}) {
   inline($html, options)
 
   /** beautify it 💅 */
-  results.html = beautify(conditionalReplace($html.html()), {
+  results.html = beautify(condition.replace($html.html()), {
     indent_size: 2,
     indent_inner_html: true,
     preserve_newlines: false,

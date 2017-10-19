@@ -1,5 +1,5 @@
 import { readFile } from 'fs-extra'
-import heml from 'heml'
+import heml from '../../'
 
 async function renderHemlFile (filepath, options) {
   const contents = await readFile(filepath, 'utf8')
