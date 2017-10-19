@@ -1,4 +1,4 @@
-import HEMLError from 'heml/Error'
+import { HEMLError } from '@heml/utils'
 
 export default function unique ($node, { tagName, unique: shouldBeUnique }, $) {
   const $nodes = $.findNodes(tagName)

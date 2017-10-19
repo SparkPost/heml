@@ -1,6 +1,4 @@
-'use strict'
-
-import HEML, { utils, createElement } from 'heml/element' // eslint-disable-line no-unused-vars
+import HEML, { createElement } from '@heml/utils' // eslint-disable-line no-unused-vars
 import hemlstyles from '@heml/styles'
 import { castArray, isEqual, uniqWith, sortBy } from 'lodash'
 

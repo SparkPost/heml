@@ -6,7 +6,9 @@
   "author": "SparkPost <dev-relations@sparkpost.com> (https://sparkpost.com)",
   "license": "MIT",
   "dependencies": {
-    "heml": "1.0.0",
+    "@heml/styles": "1.0.0",
+    "@heml/utils": "1.0.0",
+    "is-absolute-url": "^2.1.0",
     "lodash": "^4.17.4"
   }
 }
