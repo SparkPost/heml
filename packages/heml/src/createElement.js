@@ -7,7 +7,8 @@ export default function (name, element) {
 
   element = defaults({}, element, {
     tagName: name,
-    children: [],
+    attrs: [],
+    children: true,
     defaultAttrs: {},
     preRender () {},
     render () { return false },
