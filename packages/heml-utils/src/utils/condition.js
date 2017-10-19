@@ -1,7 +1,3 @@
-'use strict'
-
-const _ = require('lodash')
-
 const parts = {
   'START_CONDITION': '<!--[if ',
   'END_CONDITION': ']>',
@@ -16,13 +12,12 @@ function condition (condition, content) {
   `
 }
 
-function replace (html) {
-  _.each(parts, (replace, search) => {
+condition.replace = function (html) {
+  parts.forEach((replace, search) => {
     html = html.replace(new RegExp(search, 'g'), replace)
   })
 
   return html
-};
+}
 
 export default condition
-export { replace }

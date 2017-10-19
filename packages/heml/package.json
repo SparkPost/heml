@@ -5,14 +5,17 @@
   "main": "build/index.js",
   "author": "SparkPost <dev-relations@sparkpost.com> (https://sparkpost.com)",
   "license": "MIT",
+  "bin": {
+    "heml": "./bin"
+  },
   "dependencies": {
+    "@heml/cli": "1.0.0",
     "@heml/elements": "1.0.0",
     "@heml/inline": "1.0.0",
     "@heml/parse": "1.0.0",
     "@heml/render": "1.0.0",
     "@heml/validate": "1.0.0",
     "byte-length": "^0.1.1",
-    "css-groups": "^0.1.1",
     "js-beautify": "^1.7.4",
     "lodash": "^4.17.4"
   }

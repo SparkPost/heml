@@ -1,6 +1,6 @@
 /**
  * convert a decleration to different properity
- * max-width -> width
+ * .i.e. max-width -> width
  * @param  {String} prop
  * @return {Function}
  */
