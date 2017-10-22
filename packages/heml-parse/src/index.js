@@ -7,7 +7,6 @@ const wrappingHtmlTags = difference(htmlTags, selfClosingHtmlTags)
 
 function parse (contents, options = {}) {
   const {
-    ignoreAttr = 'heml-ignore',
     elements = [],
     cheerio: cheerioOptions = {}
   } = options
@@ -21,7 +20,7 @@ function parse (contents, options = {}) {
 
   $.findNodes = function (q) {
     return $(Array.isArray(q) ? q.join(',') : q)
-            .not(`[${ignoreAttr}]`)
+            .not('[heml-ignore]')
             .toNodes()
   }
 
