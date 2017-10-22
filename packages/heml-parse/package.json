@@ -1,10 +1,19 @@
 {
   "name": "@heml/parse",
   "version": "1.0.0",
-  "description": "",
-  "main": "build/index.js",
-  "author": "SparkPost <dev-relations@sparkpost.com> (https://sparkpost.com)",
+  "description": "Parser for HEML",
+  "keywords": [
+    "heml"
+  ],
+  "homepage": "https://heml.io",
+  "bugs": "https://github.com/SparkPost/heml/issues",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SparkPost/heml.git"
+  },
+  "author": "SparkPost <dev-relations@sparkpost.com> (https://sparkpost.com)",
+  "main": "build/index.js",
   "dependencies": {
     "cheerio": "^1.0.0-rc.2",
     "html-tags": "^2.0.0",

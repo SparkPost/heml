@@ -1,10 +1,19 @@
 {
   "name": "@heml/inline",
   "version": "1.0.0",
-  "description": "",
-  "main": "build/index.js",
-  "author": "SparkPost <dev-relations@sparkpost.com> (https://sparkpost.com)",
+  "description": "CSS inliner for HEML",
+  "keywords": [
+    "heml"
+  ],
+  "homepage": "https://heml.io",
+  "bugs": "https://github.com/SparkPost/heml/issues",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SparkPost/heml.git"
+  },
+  "author": "SparkPost <dev-relations@sparkpost.com> (https://sparkpost.com)",
+  "main": "build/index.js",
   "dependencies": {
     "juice": "^4.2.0",
     "lodash": "^4.17.4"

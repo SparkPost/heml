@@ -1,13 +1,21 @@
 {
   "name": "heml",
   "version": "1.0.0",
-  "description": "",
-  "main": "build/index.js",
-  "author": "SparkPost <dev-relations@sparkpost.com> (https://sparkpost.com)",
+  "description": "HEML is an open source markup language for building responsive email",
+  "keywords": [
+    "heml",
+    "email"
+  ],
+  "homepage": "https://heml.io",
+  "bugs": "https://github.com/SparkPost/heml/issues",
   "license": "MIT",
-  "bin": {
-    "heml": "./build/bin/heml.js"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SparkPost/heml.git"
   },
+  "author": "SparkPost <dev-relations@sparkpost.com> (https://sparkpost.com)",
+  "bin":  "build/bin/heml.js",
+  "main": "build/index.js",
   "dependencies": {
     "@heml/elements": "1.0.0",
     "@heml/inline": "1.0.0",
