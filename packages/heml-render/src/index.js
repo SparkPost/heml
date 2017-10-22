@@ -14,7 +14,7 @@ export default async function render ($, options = {}) {
     elements = []
   } = options
 
-  const globals = { $, elements }
+  const globals = { $, elements, options }
   const Meta = first(elements.filter(({ tagName }) => tagName === 'meta'))
 
   await preRenderElements(elements, globals)
@@ -62,7 +62,7 @@ async function renderElements (elements, globals) {
 
   const $nodes = [
     ...$.findNodes(metaTagNames), /** Render the meta elements first to last */
-    ...$.findNodes(nonMetaTagNames).reverse() /** Render the elements last to first */
+    ...$.findNodes(nonMetaTagNames).reverse() /** Render the elements last to first/outside to inside */
   ]
 
   for (let $node of $nodes) {

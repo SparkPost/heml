@@ -54,6 +54,7 @@ function render (name, attrs, contents) {
 
   /** if we have a regular ol element go ahead and convert it to a string */
   if (attrs && attrs.class === '') { delete attrs.class }
+  if (attrs && attrs.class) { attrs.class = attrs.class.trim() }
 
   if (selfClosingHtmlTags.includes(name)) {
     return `<${name}${attrs ? stringifyAttributes(attrs) : ''} />`
