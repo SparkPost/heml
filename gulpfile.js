@@ -1,5 +1,5 @@
 'use strict'
-// Inspired from https://github.com/babel/minify/blob/master/gulpfile.babel.js
+// Inspired by https://github.com/babel/minify/blob/master/gulpfile.babel.js
 
 const through = require('through2')
 const newer = require('gulp-newer')
@@ -40,8 +40,8 @@ function build () {
     })
 }
 
-gulp.task('default', build)
+gulp.task('build', build)
 
-gulp.task('watch', ['default'], function () {
+gulp.task('watch', ['build'], function () {
   gulp.watch(scripts, { debounceDelay: 200 }, build)
 })

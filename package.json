@@ -2,7 +2,9 @@
 	"private": true,
 	"scripts": {
 		"lint": "standard 'packages/**/src/**/*.js' --fix",
-		"precommit": "npm run lint"
+		"precommit": "npm run lint",
+    "build": "gulp build",
+    "watch": "gulp watch"
 	},
 	"devDependencies": {
 		"babel-cli": "^6.26.0",
