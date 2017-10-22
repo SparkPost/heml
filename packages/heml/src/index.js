@@ -10,16 +10,22 @@ import * as coreElements from '@heml/elements'
 
 const { condition } = utils
 
+/**
+ * renders the given HEML string with the config provided
+ * @param  {String} HEML     the heml to render
+ * @param  {Object} options  the options
+ * @return {Object}          { metadata, html, errors }
+ */
 async function heml (contents, options = {}) {
   const results = {}
   const {
-    beautifier: beautifyOptions = {},
+    beautify: beautifyOptions = {},
     validate: validateOption = 'soft'
   } = options
 
   options.elements = flattenDeep(toArray(coreElements).concat(options.elements || []))
 
-  /** parse it 🗡 */
+  /** parse it ✂️ */
   const $heml = parse(contents, options)
 
   /** validate it 🕵 */
@@ -33,7 +39,7 @@ async function heml (contents, options = {}) {
     metadata
   } = await render($heml, options)
 
-  /** inline it  */
+  /** inline it ✍️ */
   inline($html, options)
 
   /** beautify it 💅 */
@@ -52,4 +58,5 @@ async function heml (contents, options = {}) {
   return results
 }
 
+/** module.exports for commonjs */
 module.exports = heml
