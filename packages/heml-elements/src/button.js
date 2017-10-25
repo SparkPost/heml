@@ -1,6 +1,7 @@
+import HEML, { createElement, utils } from '@heml/utils' // eslint-disable-line no-unused-vars
 import { omit, pick } from 'lodash'
-import { createElement, renderElement, utils } from 'heml' // eslint-disable-line no-unused-vars
-import Style from './style'
+import Style from './Style'
+
 const {
   background,
   margin,
@@ -12,7 +13,6 @@ const {
   table,
   text,
   font,
-  transition,
   box } = utils.cssGroups
 
 export default createElement('button', {
@@ -26,27 +26,29 @@ export default createElement('button', {
       { '@pseudo': 'root' }, { display: utils.trueHide('block') } ],
 
     '.button__table': [
-      { '@pseudo': 'table' }, margin, transition, table ],
+      { '@pseudo': 'table' }, margin, table ],
 
     '.button__cell': [
-      { '@pseudo': 'cell' }, background, transition, padding, borderRadius, border, height, width, box ],
+      { '@pseudo': 'cell' }, background, padding, borderRadius, border, height, width, box ],
 
     '.button__link': [
-      { '@pseudo': 'link' }, background, text, font, transition ],
+      { '@pseudo': 'link' }, background, text, font ],
     '.button__text': [
-      { '@pseudo': 'text' }, 'color', 'text-decoration', transition ]
+      { '@pseudo': 'text' }, 'color', 'text-decoration' ]
   },
 
   render (attrs, contents) {
+    attrs.class += ' button'
+
     return (
-      <div {...omit(attrs, [ 'href', 'target', 'class' ])} class={[attrs.class, 'button']}>
+      <div {...omit(attrs, [ 'href', 'target' ])}>
         <table role='presentation' width='100%' align='left' border='0' cellpadding='0' cellspacing='0'>
           <tr>
             <td>
               <table role='presentation' width='auto' align='center' border='0' cellspacing='0' cellpadding='0' class='button__table'>
                 <tr>
                   <td align='center' class='button__cell'>
-                    <a {...pick(attrs, [ 'href', 'target' ])} class='button__link'>
+                    <a {...pick(attrs, [ 'href', 'target' ])} class='button__link' style='display: inline-block;'>
                       <span class='button__text'>{contents}</span>
                     </a>
                   </td>
@@ -63,10 +65,6 @@ export default createElement('button', {
             background-color: #2097e4;
             color: #ffffff;
             text-decoration: none;
-          }
-
-          .button__link {
-            display: inline-block;
           }
         `}</Style>
       </div>)
