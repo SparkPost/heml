@@ -13,6 +13,9 @@
     "url": "https://github.com/SparkPost/heml.git"
   },
   "author": "SparkPost <dev-relations@sparkpost.com> (https://sparkpost.com)",
+  "files": [
+    "build/"
+  ],
   "main": "build/index.js",
   "dependencies": {
     "html-tags": "^2.0.0",

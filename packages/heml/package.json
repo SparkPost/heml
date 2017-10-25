@@ -14,8 +14,11 @@
     "url": "https://github.com/SparkPost/heml.git"
   },
   "author": "SparkPost <dev-relations@sparkpost.com> (https://sparkpost.com)",
-  "bin":  "build/bin/heml.js",
+  "files": [
+    "build/"
+  ],
   "main": "build/index.js",
+  "bin":  "build/bin/heml.js",
   "dependencies": {
     "@heml/elements": "1.0.0",
     "@heml/inline": "1.0.0",
