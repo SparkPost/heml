@@ -1,9 +1,13 @@
 #!/usr/bin/env node
 
 import cli from 'commander'
+import { first } from 'lodash'
 import develop from './commands/develop'
 import build from './commands/build'
 import { version } from '../../package'
+
+const commands = ['develop', 'build']
+const args = process.argv.slice(2)
 
 cli
   .usage('<command> [options]')
@@ -23,7 +27,7 @@ cli
   .option('-v, --validate [level]', 'Sets the validation level', /^(none|soft|strict)$/i, 'soft')
   .action(build)
 
-if (!process.argv.slice(2).length) {
+if (args.length === 0 || !commands.includes(first(args))) {
   cli.outputHelp()
 }
 

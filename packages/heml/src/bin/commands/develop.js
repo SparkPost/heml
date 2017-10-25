@@ -30,6 +30,7 @@ export default async function develop (file, options) {
   try {
     const { update, url } = await startDevServer(path.dirname(filepath), port)
     const { html, errors, metadata } = await renderHemlFile(filepath)
+
     update({ html, errors, metadata })
 
     if (open) openUrl(url)
@@ -86,8 +87,8 @@ function startDevServer (directory, port = 3000) {
   const { reload } = reloadServer(app)
   let preview = ''
 
-  app.use(express.static(directory))
   app.get('/', (req, res) => res.send(preview))
+  app.use(express.static(directory))
 
   function update ({ html, errors, metadata }) {
     let status = errors.length ? chalk.red('failed') : chalk.green('success')

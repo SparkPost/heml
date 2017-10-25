@@ -1,6 +1,6 @@
 import path from 'path'
 import { writeFile } from 'fs-extra'
-import chalk, { red as error, yellow as code, blue } from 'chalk'
+import chalk, { red as error, yellow as code, blue, dim } from 'chalk'
 import isHemlFile from '../utils/isHemlFile'
 import renderHemlFile from '../utils/renderHemlFile'
 
@@ -38,6 +38,6 @@ export default async function build (file, options) {
       errors.forEach((err) => log(`> ${code(err.selector)}\n  ${err.message}`))
     }
   } catch (err) {
-    log(`\n${errorBlock(' ERROR ')} ${err.message}`)
+    log(`\n${errorBlock(' ERROR ')} ${err.message}\n${dim(err.stack)}`)
   }
 }
