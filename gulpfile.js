@@ -1,6 +1,7 @@
 'use strict'
 // Inspired by https://github.com/babel/minify/blob/master/gulpfile.babel.js
 
+const del = require('del')
 const through = require('through2')
 const newer = require('gulp-newer')
 const babel = require('gulp-babel')
@@ -11,6 +12,7 @@ const path = require('path')
 const { cyan } = util.colors
 
 const scripts = './packages/*/src/**/*.js'
+const builds = './packages/*/build'
 const dest = 'packages'
 
 let srcEx, libFragment
@@ -44,4 +46,8 @@ gulp.task('build', build)
 
 gulp.task('watch', ['build'], function () {
   gulp.watch(scripts, { debounceDelay: 200 }, build)
+})
+
+gulp.task('clean', () => {
+  return del(builds)
 })
