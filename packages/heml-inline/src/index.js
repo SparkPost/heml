@@ -1,6 +1,7 @@
 import juice from 'juice'
 import inlineMargins from './inlineMargins'
 import fixImageWidths from './fixImageWidths'
+import removeProcessingIds from './removeProcessingIds'
 
 function inline ($, options = {}) {
   const { juice: juiceOptions = {} } = options
@@ -11,6 +12,7 @@ function inline ($, options = {}) {
 
   inlineMargins($)
   fixImageWidths($)
+  removeProcessingIds($)
 
   return $
 }

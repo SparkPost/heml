@@ -39,7 +39,7 @@ function fixImageWidths ($) {
  *
  * @return {String} style
  */
-function setProp (style, prop, value) {
+function setProp (style = '', prop, value) {
   prop = prop.trim().toLowerCase()
   const decls = style.split(';')
 
