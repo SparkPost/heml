@@ -13,9 +13,13 @@
     "url": "https://github.com/SparkPost/heml.git"
   },
   "author": "SparkPost <dev-relations@sparkpost.com> (https://sparkpost.com)",
+  "files": [
+    "build/"
+  ],
   "main": "build/index.js",
   "dependencies": {
     "cheerio": "^1.0.0-rc.2",
+    "crypto-random-string": "^1.0.0",
     "html-tags": "^2.0.0",
     "lodash": "^4.17.4"
   }
