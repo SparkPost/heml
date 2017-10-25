@@ -20,6 +20,8 @@
   "dependencies": {
     "@heml/styles": "1.0.0",
     "@heml/utils": "1.0.0",
+    "axios": "^0.17.0",
+    "image-size": "^0.6.1",
     "is-absolute-url": "^2.1.0",
     "lodash": "^4.17.4"
   }
