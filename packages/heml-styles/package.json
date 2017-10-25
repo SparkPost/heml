@@ -13,6 +13,9 @@
     "url": "https://github.com/SparkPost/heml.git"
   },
   "author": "SparkPost <dev-relations@sparkpost.com> (https://sparkpost.com)",
+  "files": [
+    "build/"
+  ],
   "main": "build/index.js",
   "dependencies": {
     "css-declaration-sorter": "^2.1.0",
@@ -25,8 +28,8 @@
     "postcss-convert-values": "^2.6.1",
     "postcss-discard-comments": "^2.0.4",
     "postcss-discard-duplicates": "^2.1.0",
+    "postcss-discard-empty": "^2.1.0",
     "postcss-discard-overridden": "^0.1.1",
-    "postcss-discard-unused": "^2.2.3",
     "postcss-email-important": "^1.0.0",
     "postcss-hex-format": "^1.0.0",
     "postcss-merge-rules": "^2.1.2",
@@ -35,11 +38,14 @@
     "postcss-minify-params": "^1.2.2",
     "postcss-minify-selectors": "^2.1.1",
     "postcss-normalize-display-values": "^4.0.0-rc.2",
+    "postcss-normalize-positions": "^4.0.0-rc.2",
+    "postcss-normalize-repeat-style": "^4.0.0-rc.2",
     "postcss-normalize-string": "^4.0.0-rc.2",
     "postcss-normalize-timing-functions": "^4.0.0-rc.2",
     "postcss-ordered-values": "^2.2.3",
     "postcss-rgba-hex": "^0.3.7",
     "postcss-safe-parser": "^3.0.1",
-    "postcss-shorthand-expand": "^1.0.1"
+    "postcss-shorthand-expand": "^1.0.1",
+    "postcss-unique-selectors": "^2.0.2"
   }
 }

@@ -17,7 +17,6 @@ import minifyFontValues from 'postcss-minify-font-values'
 import normalizeRepeatStyle from 'postcss-normalize-repeat-style'
 import normalizePositions from 'postcss-normalize-positions'
 import discardEmpty from 'postcss-discard-empty'
-import discardUnused from 'postcss-discard-unused'
 import uniqueSelectors from 'postcss-unique-selectors'
 import declarationSorter from 'css-declaration-sorter'
 import mergeAdjacentMedia from './plugins/postcss-merge-adjacent-media'
@@ -47,8 +46,8 @@ async function hemlstyles (contents, options = {}) {
   return postcss([
     ...plugins,
 
-    /** optimize css */
-    discardComments(),
+    // /** optimize css */
+    discardComments({ removeAll: false }),
     minifyGradients(),
     normalizeDisplayValues(),
     normalizeTimingFunctions(),
@@ -63,7 +62,6 @@ async function hemlstyles (contents, options = {}) {
     normalizeRepeatStyle(),
     normalizePositions(),
     discardEmpty(),
-    discardUnused(),
     uniqueSelectors(),
     declarationSorter(),
     mergeAdjacentMedia(),
@@ -81,7 +79,8 @@ async function hemlstyles (contents, options = {}) {
 
     /** expanding to match heml elements */
     shorthandExpand(), // so we can match for margin-left/margin-right etc.
-    elementExpander({ elements, aliases })
+    elementExpander({ elements, aliases }),
+    discardEmpty()
   ])
   .process(contents, { parser: safeParser })
 }
