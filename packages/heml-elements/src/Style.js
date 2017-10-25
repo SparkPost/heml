@@ -2,8 +2,8 @@ import HEML, { createElement } from '@heml/utils' // eslint-disable-line no-unus
 import hemlstyles from '@heml/styles'
 import { castArray, isEqual, uniqWith, sortBy } from 'lodash'
 
-const START_EMBED_CSS = `/*****START:EMBED_CSS*****/`
-const START_INLINE_CSS = `/*****START:INLINE_CSS*****/`
+const START_EMBED_CSS = `/*!***START:EMBED_CSS*****/`
+const START_INLINE_CSS = `/*!***START:INLINE_CSS*****/`
 
 let styleMap
 let options
@@ -52,8 +52,15 @@ export default createElement('style', {
   },
 
   async flush () {
+    /**
+     * reverse the styles so they fall in an order that mirrors their position
+     * - they get rendered bottom to top - should be styled top to bottom
+     *
+     * the global styles should always be rendered last
+     */
     const globalStyles = styleMap.get('global')
     styleMap.delete('global')
+    styleMap = new Map([...styleMap].reverse())
     styleMap.set('global', globalStyles)
 
     let ignoredCSS = []
@@ -85,7 +92,7 @@ export default createElement('style', {
     })
 
     /** split on the dividers and map it so each part starts with INLINE or EMBED */
-    let processedCssParts = processedCss.split(/\/\*\*\*\*\*START:/g).splice(1).map((css) => css.replace(/_CSS\*\*\*\*\*\//, ''))
+    let processedCssParts = processedCss.split(/\/\*!\*\*\*START:/g).splice(1).map((css) => css.replace(/_CSS\*\*\*\*\*\//, ''))
 
     /** build the html */
     let html = ''
@@ -113,5 +120,5 @@ export default createElement('style', {
 })
 
 function ignoreComment (index) {
-  return `/*****IGNORE_${index}*****/`
+  return `/*!***IGNORE_${index}*****/`
 }
