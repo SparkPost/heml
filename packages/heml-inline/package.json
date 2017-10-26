@@ -17,6 +17,9 @@
     "build/"
   ],
   "main": "build/index.js",
+  "publishConfig": {
+    "access": "public"
+  },
   "dependencies": {
     "juice": "^4.2.0",
     "lodash": "^4.17.4"

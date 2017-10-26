@@ -17,6 +17,9 @@
     "build/"
   ],
   "main": "build/index.js",
+  "publishConfig": {
+    "access": "public"
+  },
   "dependencies": {
     "cheerio": "^1.0.0-rc.2",
     "crypto-random-string": "^1.0.0",

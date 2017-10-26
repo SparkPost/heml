@@ -17,6 +17,9 @@
     "build/"
   ],
   "main": "build/index.js",
+  "publishConfig": {
+    "access": "public"
+  },
   "dependencies": {
     "@heml/styles": "^1.0.0",
     "@heml/utils": "^1.0.0",

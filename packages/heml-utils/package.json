@@ -17,6 +17,9 @@
     "build/"
   ],
   "main": "build/index.js",
+  "publishConfig": {
+    "access": "public"
+  },
   "dependencies": {
     "@heml/render": "^1.0.0",
     "css-groups": "^0.1.1",

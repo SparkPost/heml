@@ -17,6 +17,9 @@
     "build/"
   ],
   "main": "build/index.js",
+  "publishConfig": {
+    "access": "public"
+  },
   "dependencies": {
     "css-declaration-sorter": "^2.1.0",
     "css-shorthand-expand": "^1.1.0",
