@@ -32,6 +32,7 @@
     "postcss-discard-overridden": "^0.1.1",
     "postcss-email-important": "^1.0.0",
     "postcss-hex-format": "^1.0.0",
+    "postcss-merge-longhand": "^3.0.0",
     "postcss-merge-rules": "^2.1.2",
     "postcss-minify-font-values": "^1.0.5",
     "postcss-minify-gradients": "^1.0.5",

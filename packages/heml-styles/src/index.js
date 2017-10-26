@@ -30,11 +30,14 @@ import rgbaFallback from 'postcss-color-rgba-fallback'
 import formatHexColors from 'postcss-hex-format'
 
 /** email fixes */
-import emailImportant from 'postcss-email-important'
-
-/** custom plugins */
 import shorthandExpand from './plugins/postcss-expand-shorthand'
+import emailImportant from 'postcss-email-important'
+import zeroOutMargin from './plugins/postcss-zero-out-margin'
+
+/** custom element expander */
 import elementExpander from './plugins/postcss-element-expander'
+
+import mergeLonghand from 'postcss-merge-longhand'
 
 async function hemlstyles (contents, options = {}) {
   const {
@@ -76,10 +79,12 @@ async function hemlstyles (contents, options = {}) {
 
     /** email fixes */
     emailImportant(),
+    shorthandExpand(), // so we can match for margin-top/margin-left etc.
+    zeroOutMargin(),
 
     /** expanding to match heml elements */
-    shorthandExpand(), // so we can match for margin-left/margin-right etc.
     elementExpander({ elements, aliases }),
+    mergeLonghand(),
     discardEmpty()
   ])
   .process(contents, { parser: safeParser })
