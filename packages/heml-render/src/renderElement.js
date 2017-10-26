@@ -38,7 +38,7 @@ function render (name, attrs, contents) {
 
     /** 1. catch shorthands for rerendering the element */
     if (renderResults.length === 1 && renderResults[0] === true) {
-      return renderResults(name.tagName, attrs, contents)
+      return render(name.tagName, attrs, contents)
     }
 
     /** 2. we want to return synchronously if we can */
