@@ -1,4 +1,4 @@
-import HEML, { createElement, utils } from '@heml/utils' // eslint-disable-line no-unused-vars
+import HEML, { createElement, transforms, cssGroups } from '@heml/utils' // eslint-disable-line no-unused-vars
 import Style from './Style'
 import Preview from './Preview'
 
@@ -6,7 +6,7 @@ const {
   background,
   padding,
   font,
-  text } = utils.cssGroups
+  text } = cssGroups
 
 export default createElement('body', {
   unique: true,
@@ -20,7 +20,7 @@ export default createElement('body', {
 
     '.body__content': [ { '@pseudo': 'content' }, padding, font, text ],
 
-    '.preview': [ { 'background-color': utils.convertProp('color') } ]
+    '.preview': [ { 'background-color': transforms.convertProp('color') } ]
   },
 
   async render (attrs, contents) {

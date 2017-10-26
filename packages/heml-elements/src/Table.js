@@ -1,10 +1,10 @@
-import HEML, { createElement, utils } from '@heml/utils' // eslint-disable-line no-unused-vars
+import HEML, { createElement, transforms } from '@heml/utils' // eslint-disable-line no-unused-vars
 
 const Table = createElement('table', {
   attrs: true,
   containsText: true,
   rules: {
-    '.table': [ { '@pseudo': 'root' }, '@default', { display: utils.trueHide('table') } ]
+    '.table': [ { '@pseudo': 'root' }, '@default', { display: transforms.trueHide('table') } ]
   },
 
   render (attrs, contents) {

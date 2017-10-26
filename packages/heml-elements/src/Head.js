@@ -33,6 +33,11 @@ export default createElement('head', {
       `}</style>
         <style type='text/css'>{`
         h1, h2, h3, h4, h5, h6 { margin: 20px 0; }
+        h1 { line-height: 40px; }
+        h2 { line-height: 30px; }
+        h3 { line-height: 24px; }
+        h5 { line-height: 17px; }
+        h6 { line-height: 12px; }
         p { display: block; margin: 14px 0; }
         ul { margin-left: 20px; margin-top: 16px; margin-bottom: 16px; padding: 0; list-style-type: disc; }
       `}</style>

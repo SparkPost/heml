@@ -1,4 +1,4 @@
-import HEML, { createElement, utils } from '@heml/utils' // eslint-disable-line no-unused-vars
+import HEML, { createElement, transforms, cssGroups } from '@heml/utils' // eslint-disable-line no-unused-vars
 import Style from './Style'
 
 const {
@@ -6,7 +6,7 @@ const {
   box,
   padding,
   border,
-  borderRadius } = utils.cssGroups
+  borderRadius } = cssGroups
 
 const breakpoint = 600
 
@@ -17,7 +17,7 @@ export default createElement('column', {
   containsText: true,
 
   rules: {
-    '.column': [ { '@pseudo': 'root' }, { display: utils.trueHide(undefined, true) }, background, box, padding, border, borderRadius, 'vertical-align' ]
+    '.column': [ { '@pseudo': 'root' }, { display: transforms.trueHide(undefined, true) }, background, box, padding, border, borderRadius, 'vertical-align' ]
   },
 
   render (attrs, contents) {

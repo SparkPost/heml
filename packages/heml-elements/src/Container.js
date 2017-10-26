@@ -1,13 +1,9 @@
-import HEML, { createElement, utils } from '@heml/utils' // eslint-disable-line no-unused-vars
+import HEML, { createElement, transforms, cssGroups, condition } from '@heml/utils' // eslint-disable-line no-unused-vars
 import Style from './Style'
 
 const {
-  condition,
   trueHide,
-  convertProp,
-  ieAlignFallback,
-  fallbackFor,
-  cssGroups } = utils
+  ieAlignFallback } = transforms
 
 const {
   background,
@@ -26,7 +22,7 @@ export default createElement('container', {
   rules: {
     '.container': [ { '@pseudo': 'root' }, { display: trueHide('block') }, margin, width ],
 
-    '.container__table__ie': [ { 'max-width': convertProp('width') }, { width: fallbackFor('max-width') }, { [margin]: ieAlignFallback } ],
+    '.container__table__ie': [ 'width', 'max-width', { [margin]: ieAlignFallback } ],
 
     '.container__table': [ { '@pseudo': 'table' }, table ],
 

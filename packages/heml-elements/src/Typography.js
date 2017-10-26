@@ -1,9 +1,9 @@
-import HEML, { createElement, utils } from '@heml/utils' // eslint-disable-line no-unused-vars
+import HEML, { createElement, transforms, cssGroups } from '@heml/utils' // eslint-disable-line no-unused-vars
 import { merge } from 'lodash'
 
 const {
   margin, background, border, borderRadius, text, font
-} = utils.cssGroups
+} = cssGroups
 
 /**
  * create mergable text element
@@ -12,19 +12,22 @@ const {
  * @return {Object}
  */
 function createTextElement (name, element = {}) {
+  let classToAdd = ''
+  const Tag = name
+
+  if (/^h\d$/i.test(name)) {
+    classToAdd = 'header'
+  } else {
+    classToAdd = 'text'
+  }
+
   return createElement(name, merge({
     attrs: true,
     rules: {
-      [`${name}`]: [ { '@pseudo': 'root' }, '@default', { display: utils.trueHide() }, margin, background, border, borderRadius, text, font ]
+      [`.${name}.${classToAdd}`]: [ { '@pseudo': 'root' }, '@default', { display: transforms.trueHide() }, margin, background, border, borderRadius, text, font ]
     },
     render (attrs, contents) {
-      const Tag = name
-
-      if (/^h\d$/i.test(name)) {
-        attrs.class += ' header'
-      } else {
-        attrs.class += ' text'
-      }
+      attrs.class += ` ${classToAdd} ${name}`
 
       return <Tag {...attrs}>{contents}</Tag>
     }
@@ -47,7 +50,7 @@ const A = createElement('a', {
   defaultAttrs: { href: '#' },
 
   rules: {
-    '.a': [ { '@pseudo': 'root' }, { '@default': true }, { display: utils.trueHide('inline') }, 'color', 'text-decoration' ],
+    '.a': [ { '@pseudo': 'root' }, { '@default': true }, { display: transforms.trueHide('inline') }, 'color', 'text-decoration' ],
     '.a__text': [ { '@pseudo': 'text' }, 'color', 'text-decoration' ]
   },
 

@@ -1,4 +1,4 @@
-import HEML, { createElement, utils } from '@heml/utils' // eslint-disable-line no-unused-vars
+import HEML, { createElement, transforms } from '@heml/utils' // eslint-disable-line no-unused-vars
 import Style from './Style'
 import { omit, has } from 'lodash'
 import fs from 'fs-extra'
@@ -15,7 +15,7 @@ export default createElement('img', {
   },
 
   rules: {
-    'img': [ { '@pseudo': 'root' }, { display: utils.trueHide() }, '@default' ]
+    'img': [ { '@pseudo': 'root' }, { display: transforms.trueHide() }, '@default' ]
   },
 
   async render (attrs, contents) {

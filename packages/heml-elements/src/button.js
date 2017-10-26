@@ -1,4 +1,4 @@
-import HEML, { createElement, utils } from '@heml/utils' // eslint-disable-line no-unused-vars
+import HEML, { createElement, transforms, cssGroups } from '@heml/utils' // eslint-disable-line no-unused-vars
 import { omit, pick } from 'lodash'
 import Style from './Style'
 
@@ -13,7 +13,7 @@ const {
   table,
   text,
   font,
-  box } = utils.cssGroups
+  box } = cssGroups
 
 export default createElement('button', {
   attrs: [ 'href', 'target' ],
@@ -23,7 +23,7 @@ export default createElement('button', {
 
   rules: {
     '.button': [
-      { '@pseudo': 'root' }, { display: utils.trueHide('block') } ],
+      { '@pseudo': 'root' }, { display: transforms.trueHide('block') } ],
 
     '.button__table': [
       { '@pseudo': 'table' }, margin, table ],
