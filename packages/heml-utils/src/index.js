@@ -1,6 +1,8 @@
 import { renderElement } from '@heml/render'
+import cssGroups from 'css-groups'
 import createElement from './createElement'
 import HEMLError from './HEMLError'
-import utils from './utils'
+import transforms from './transforms'
+import condition from './condition'
 
-module.exports = { createElement, renderElement, HEMLError, utils }
+module.exports = { createElement, renderElement, HEMLError, cssGroups, transforms, condition }
