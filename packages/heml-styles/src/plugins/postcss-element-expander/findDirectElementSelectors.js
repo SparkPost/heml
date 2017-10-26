@@ -14,15 +14,11 @@ export default function (element, selector) {
     let selectorNodes = selector.nodes.concat([]).reverse() // clone the array
 
     for (const node of selectorNodes) {
-      if (node.type === 'cominator') { break }
+      if (node.type === 'combinator') { return false }
 
-      if (node.type === 'pseudo' && node.value.replace(/::?/, '') in element.pseudos) {
-        break
-      }
+      if (node.type === 'pseudo' && node.value.replace(/::?/, '') in element.pseudos) { return false }
 
       if (node.type === 'tag' && node.value === element.tag) { return true }
     }
-
-    return false
   }).map((selector) => String(selector).trim())
 }
