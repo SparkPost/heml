@@ -1,4 +1,5 @@
-# HEML
+<h1 align="center">&lt;heml&gt;</h1>
+
 
 <p align="center">
   <a href="https://heml.io/docs/getting-started/guide">Guide</a> &bull;
