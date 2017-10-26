@@ -1,7 +1,8 @@
 import juice from 'juice'
 import inlineMargins from './inlineMargins'
-import fixImageWidths from './fixImageWidths'
+import fixWidthsFor from './fixWidthsFor'
 import removeProcessingIds from './removeProcessingIds'
+import preferMaxWidth from './preferMaxWidth'
 
 function inline ($, options = {}) {
   const { juice: juiceOptions = {} } = options
@@ -11,7 +12,8 @@ function inline ($, options = {}) {
   })
 
   inlineMargins($)
-  fixImageWidths($)
+  preferMaxWidth($, '[class$="__ie"]')
+  fixWidthsFor($, 'img, .block__table__ie, .column')
   removeProcessingIds($)
 
   return $
