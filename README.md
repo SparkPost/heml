@@ -27,7 +27,7 @@ It makes building emails easier.
 
 Check out our [usage guide](http://heml.io/docs/getting-started/usage).
 
-### What do I if I found a bug?
+### What do I do if I found a bug?
 
 Open up an [issue](https://github.com/SparkPost/heml/issues) on the repository. Thanks for catching it! 🙏
 
