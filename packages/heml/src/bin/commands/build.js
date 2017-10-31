@@ -9,8 +9,8 @@ const successBlock = chalk.bgGreen.black
 const { log } = console
 
 export default async function build (file, options) {
-  const filepath = path.resolve(process.cwd(), file)
-  const outputpath = path.resolve(process.cwd(), options.output || file.replace(/\.heml$/, '.html'))
+  const filepath = path.resolve(file)
+  const outputpath = path.resolve(options.output || file.replace(/\.heml$/, '.html'))
 
   /** require .heml extention */
   if (!isHemlFile(file)) {
