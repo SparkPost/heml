@@ -15,7 +15,7 @@ const errorBlock = chalk.bgRed.white
 const { log } = console
 
 export default async function develop (file, options) {
-  const filepath = path.join(process.cwd(), file)
+  const filepath = path.resolve(process.cwd(), file)
   const {
     port = 3000,
     open = false
