@@ -1,7 +1,8 @@
 import HEML, { createElement } from '@heml/utils' // eslint-disable-line no-unused-vars
 import Meta from './Meta'
 import isAbsoluteUrl from 'is-absolute-url'
-import { join } from 'path'
+import { resolve } from 'url'
+import { has, first } from 'lodash'
 
 export default createElement('base', {
   parent: [ 'head' ],
@@ -15,14 +16,18 @@ export default createElement('base', {
     return false
   },
 
-  postRender ({ $ }) {
-    const baseUrl = Meta.get('base')
+  preRender ({ $ }) {
+    const base = first($.findNodes('base'))
 
-    if (baseUrl) {
+    if (base) {
+      const baseUrl = base.attr('href')
+
       $('[href], [src]')
         .each((i, node) => {
-          if (!isAbsoluteUrl(node.attribs.href)) {
-            node.attribs.href = join(baseUrl, node.attribs.href)
+          const attr = has(node.attribs, 'href') ? 'href' : 'src'
+
+          if (has(node.attribs, attr) && !isAbsoluteUrl(node.attribs[attr])) {
+            node.attribs[attr] = resolve(baseUrl, node.attribs[attr])
           }
         })
     }
