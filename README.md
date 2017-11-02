@@ -14,7 +14,7 @@ HEML is an open source markup language for building responsive email.
 
 - **Forward Thinking:** HEML is designed to take advantage of all that email can do while still providing a solid experience for all clients.
 
-- **Extendable:** You can create your own powerful elements and style rules. Share them with the world, or keep em to yourself. Your choice.
+- **Extendable:** You can create your own powerful elements and style rules. Share them with the world, or keep them to yourself. Your choice.
 
 
 ## FAQ
