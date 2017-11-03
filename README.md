@@ -29,7 +29,7 @@ Check out our [usage guide](http://heml.io/docs/getting-started/usage).
 
 ### What do I do if I found a bug?
 
-Open up an [issue](https://github.com/SparkPost/heml/issues) on the repository. Thanks for catching it! 🙏
+Open up an [issue](https://github.com/SparkPost/heml/issues/new) on the repository. Thanks for catching it! 🙏
 
 ### Want to help?
 
