@@ -1,6 +1,12 @@
 import randomString from 'crypto-random-string'
 import { compact, first } from 'lodash'
 
+/**
+ * This extracts all inline styles on elements into a style tag to be inlined later
+ * so that the styles can be properly expanded and later re-inlined
+ * @param  {Cheerio} $
+ * @param  {Array}   elements
+ */
 export default function($, elements) {
   /** try for head, fallback to body, then heml */
   const $head = first(compact([...$('head').toNodes(), ...$('body').toNodes(), ...$('heml').toNodes()]))

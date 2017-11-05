@@ -4,7 +4,12 @@ import { difference } from 'lodash'
 
 const wrappingHtmlTags = difference(htmlTags, selfClosingHtmlTags)
 
-
+/**
+ * The HEML is parsed as XML. If the HEML contains a wrapping tag with no content it will be
+ * optimized to be self closing. This add a placeholder space to all empty wrapping tags
+ * @param  {Cheerio} $
+ * @param  {Array}   elements
+ */
 export default function($, elements) {
   /** collect all the wrapping nodes */
   const wrappingTags = [
