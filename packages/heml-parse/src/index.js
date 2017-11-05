@@ -2,7 +2,7 @@ import { load } from 'cheerio'
 import closeSelfClosingNodes from './closeSelfClosingNodes'
 import openWrappingNodes from './openWrappingNodes'
 import extractInlineStyles from './extractInlineStyles'
-import safeSelectorize from './safeSelectorize'
+import preprocessStyles from './preprocessStyles'
 
 function parse (contents, options = {}) {
   const {
@@ -32,7 +32,7 @@ function parse (contents, options = {}) {
   closeSelfClosingNodes($, elements)
   openWrappingNodes($, elements)
   extractInlineStyles($, elements)
-  safeSelectorize($, elements)
+  preprocessStyles($, elements)
 
   return $
 }
