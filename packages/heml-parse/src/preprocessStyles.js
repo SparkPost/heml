@@ -134,8 +134,13 @@ function buildTheElementSpecificSelector(elementName, selector, $) {
   return appendElementSelector(elementName, stringifySelectorNodes(nodes.reverse()))
 }
 
-function queryableSelector(s) {
-  return s
+function queryableSelector(selector) {
+  const { nodes } = first(parseSelector(selector).nodes)
+
+  /** remove all non-static pseudo selectors/elements */
+  return stringifySelectorNodes(nodes.filter((node) => {
+    return !(node.type.startsWith('pseudo') && !staticPseudoSelectors.includes(node.name))
+  }))
 }
 
 /**
@@ -149,7 +154,7 @@ function targetsTag (selector) {
   for (const node of nodes) {
     if (node.type === 'operator' || node.type === 'spacing') { return false }
 
-    if (node.type === 'tag') { return true }
+    if (node.type === 'element') { return true }
   }
 }
 
