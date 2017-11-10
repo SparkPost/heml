@@ -23,10 +23,7 @@
   "dependencies": {
     "cheerio": "^1.0.0-rc.2",
     "crypto-random-string": "^1.0.0",
-    "css-selector-tokenizer": "^0.7.0",
     "html-tags": "^2.0.0",
-    "lodash": "^4.17.4",
-    "postcss": "^6.0.14",
-    "postcss-safe-parser": "^3.0.1"
+    "lodash": "^4.17.4"
   }
 }

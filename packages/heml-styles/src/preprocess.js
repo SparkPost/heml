@@ -1,12 +1,7 @@
 import postcss, { plugin } from 'postcss'
 import safeParser from 'postcss-safe-parser'
 import { parse as parseSelector, stringify as stringfySelector } from 'css-selector-tokenizer'
-import { unique } from 'shorthash'
-import { first, last, intersection, uniq } from 'lodash'
-
-function toClass(s) {
-  return `s${unique(s)}`
-}
+import { get, first, last, intersection, uniq } from 'lodash'
 
 function stringifySelectorNodes(nodes) {
   return stringfySelector({ type: 'selector', nodes })
@@ -189,13 +184,7 @@ const safeSelectorize = plugin('postcss-safe-selectorize', ($) => (root) => {
   root.walkRules((rule) => {
     rule.selectors = rule.selectors.map((selector) => {
       if (isComplexSelector(selector)) {
-        const classesMap = generateClassesForSelector(selector)
-
-        for (const [ className, selectorPart ] of classesMap) {
-          $(selectorPart).addClass(className)
-        }
-
-        return generateReplacementSelector(selector)
+        return convertToSafeSelector(selector, $)
       }
 
       return selector
@@ -228,42 +217,54 @@ function isComplexSelector(selector) {
   }).length > 0
 }
 
+function ()
+
 /**
  * builds a map of selectors to be replaced with the corresponding class
  * @param  {String} selector
  * @return {Map}    selectorAndClassMap
  */
-function generateClassesForSelector(selector) {
+function convertToSafeSelector(selector, $) {
   const { nodes } = first(parseSelector(selector).nodes)
-  const map = new Map()
-  let selectorPartNodes = []
+  const classes = new Map()
+
+
+  nodes.forEach((node, index) => {
+    if (type === 'operator' && complexRelationships.includes(operator)) {
+      const prevPart = getPrevPart(nodes, index)
+      const { id, classes, tags } = calculateSelectorStore(prevPart)
+    }
+
+    if (type === 'universal')
+  })
+
 
   /**
    * 1. gather all the nodes until a pseudo element or dynamic pseudo selector
    * 2. create a class for the selector part and add selector part/class to the map
    */
-  nodes.forEach((node, index) => {
+  // nodes.forEach((node, index) => {
     /** we have a matched pseudo - drop the node, build the previous nodes to a string, and add it to the map entry */
-    if (node.type.startsWith('pseudo') && (pseudoElements.includes(node.name) || dynamicPseudoSelectors.includes(node.name))) {
-      const selectorPart = stringifySelectorNodes(selectorPartNodes)
-      map.set(toClass(selectorPart), selectorPart)
+    // if (node.type.startsWith('pseudo') && (pseudoElements.includes(node.name) || dynamicPseudoSelectors.includes(node.name))) {
+    //   const selectorPart = stringifySelectorNodes(selectorPartNodes)
+    //   map.set(toClass(selectorPart), selectorPart)
 
       /**
        * keep the previous last node on so that the selector continues to work
        * .i.e. a:hover > b will become these selectors ['a', 'a > b']
        */
-      selectorPartNodes = selectorPartNodes.length > 0 ? [ last(selectorPartNodes) ] : []
-    }
+      // selectorPartNodes = selectorPartNodes.length > 0 ? [ last(selectorPartNodes) ] : []
+    // }
     /** we are on the last element, push it on, and add the  */
-    else if (index === nodes.length - 1) {
-      selectorPartNodes.push(node)
-      const selectorPart = stringifySelectorNodes(selectorPartNodes)
-      map.set(toClass(selectorPart), selectorPart)
-    }
+    // else if (index === nodes.length - 1) {
+    //   selectorPartNodes.push(node)
+    //   const selectorPart = stringifySelectorNodes(selectorPartNodes)
+    //   map.set(toClass(selectorPart), selectorPart)
+    // }
     /** push the node to the current selector part */
-    else {
-      selectorPartNodes.push(node)
-    }
+    // else {
+    //   selectorPartNodes.push(node)
+    // }
   })
 
   return map
