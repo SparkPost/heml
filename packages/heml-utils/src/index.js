@@ -4,5 +4,6 @@ import createElement from './createElement'
 import HEMLError from './HEMLError'
 import transforms from './transforms'
 import condition from './condition'
+import toClass from './toClass'
 
-module.exports = { createElement, renderElement, HEMLError, cssGroups, transforms, condition }
+module.exports = { createElement, renderElement, HEMLError, cssGroups, transforms, condition, toClass }
