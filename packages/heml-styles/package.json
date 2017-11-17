@@ -49,7 +49,7 @@
     "postcss-ordered-values": "^2.2.3",
     "postcss-rgba-hex": "^0.3.7",
     "postcss-safe-parser": "^3.0.1",
-    "postcss-shorthand-expand": "^1.0.1",
+    "postcss-selector-parser": "^2.2.3",
     "postcss-unique-selectors": "^2.0.2"
   }
 }
