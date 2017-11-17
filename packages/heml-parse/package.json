@@ -21,6 +21,7 @@
     "access": "public"
   },
   "dependencies": {
+    "babel-runtime": "^6.26.0",
     "cheerio": "^1.0.0-rc.2",
     "crypto-random-string": "^1.0.0",
     "html-tags": "^2.0.0",

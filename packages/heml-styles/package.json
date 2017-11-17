@@ -21,6 +21,7 @@
     "access": "public"
   },
   "dependencies": {
+    "babel-runtime": "^6.26.0",
     "css-declaration-sorter": "^2.1.0",
     "css-shorthand-expand": "^1.1.0",
     "lodash": "^4.17.4",
