@@ -1,6 +1,6 @@
 {
   "name": "@heml/validate",
-  "version": "1.0.2-0",
+  "version": "1.1.0",
   "description": "Validator for HEML",
   "keywords": [
     "heml"
@@ -21,7 +21,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@heml/utils": "^1.0.2-0",
+    "@heml/utils": "^1.1.0",
     "lodash": "^4.17.4"
   }
 }

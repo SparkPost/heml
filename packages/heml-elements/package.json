@@ -1,6 +1,6 @@
 {
   "name": "@heml/elements",
-  "version": "1.0.2-0",
+  "version": "1.1.0",
   "description": "Core elements for HEML",
   "keywords": [
     "heml"
@@ -21,8 +21,8 @@
     "access": "public"
   },
   "dependencies": {
-    "@heml/styles": "^1.0.2-0",
-    "@heml/utils": "^1.0.2-0",
+    "@heml/styles": "^1.1.0",
+    "@heml/utils": "^1.1.0",
     "axios": "^0.17.0",
     "image-size": "^0.6.1",
     "is-absolute-url": "^2.1.0",
