@@ -56,7 +56,6 @@ async function postRenderElements (elements, globals) {
  */
 async function renderElements (elements, globals) {
   const { $ } = globals
-  const elementMap = keyBy(elements, 'tagName')
   const metaTagNames = filter(elements, { parent: [ 'head' ] }).map(({ tagName }) => tagName)
   const nonMetaTagNames = difference(elements.map(({ tagName }) => tagName), metaTagNames)
 
@@ -65,8 +64,25 @@ async function renderElements (elements, globals) {
     ...$.findNodes(nonMetaTagNames).reverse() /** Render the elements last to first/outside to inside */
   ]
 
+  renderNodes($nodes, globals)
+}
+
+
+/**
+ * renders the given element $nodes
+ * @param  {Array[Cheerio]} $nodes
+ * @param  {Object}         globals { $, elements }
+ */
+function renderNodes($nodes, globals) {
+  const { elements } = globals
+  const elementMap = keyBy(elements, 'tagName')
+
   for (let $node of $nodes) {
-    const element = elementMap[$node.prop('tagName').toLowerCase()]
+    const tagName = $node.prop('tagName').toLowerCase()
+
+    if (!elementMap[tagName]) { return }
+
+    const element = elementMap[tagName]
     const contents = $node.html()
     const attrs = $node[0].attribs
 
