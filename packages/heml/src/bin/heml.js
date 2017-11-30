@@ -27,7 +27,7 @@ cli
   .option('-v, --validate [level]', 'Sets the validation level', /^(none|soft|strict)$/i, 'soft')
   .action(build)
 
-if (args.length === 0 || !commands.includes(first(args))) {
+if (args.length === 0 || !commands.includes(first(args)) && !first(args).startsWith('-')) {
   cli.outputHelp()
 }
 
