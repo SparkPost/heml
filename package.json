@@ -2,12 +2,12 @@
   "private": true,
   "scripts": {
     "lint": "standard 'packages/**/src/**/*.js' 'test/**/*.js' --fix",
-    "test": "npm run build && npm run lint && jest ./test/*.spec.js",
+    "test": "npm run bootstrap && npm run build && npm run lint && jest ./test/*.spec.js",
     "bootstrap": "npm install && lerna bootstrap",
     "clean": "gulp clean && lerna clean --yes",
     "build": "gulp build",
     "watch": "gulp watch",
-    "publish": "npm run clean && npm run bootstrap && npm test && lerna publish"
+    "publish": "npm run clean && npm test && lerna publish"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
