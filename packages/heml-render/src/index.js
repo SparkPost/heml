@@ -1,4 +1,4 @@
-import { filter, difference, keyBy, first } from 'lodash'
+import { filter, keyBy, first } from 'lodash'
 import renderElement from './renderElement'
 
 export { renderElement }
@@ -84,7 +84,7 @@ async function renderElements (elements, globals) {
  * @param  {Array[Cheerio]} $nodes
  * @param  {Object}         globals { $, elements }
  */
-async function renderNodes($nodes, globals) {
+async function renderNodes ($nodes, globals) {
   const { elements } = globals
   const elementMap = keyBy(elements, 'tagName')
 
@@ -99,13 +99,12 @@ async function renderNodes($nodes, globals) {
   }
 }
 
-
 /**
  * renders a single $node of the given element
  * @param  {Cheerio} $node
  * @param  {Object}  element
  */
-async function renderNode($node, element) {
+async function renderNode ($node, element) {
   const contents = $node.html()
   const attrs = $node[0].attribs
 

@@ -1,4 +1,4 @@
-import { defaults, isFunction } from 'lodash'
+import { isFunction } from 'lodash'
 import createElement from './createElement'
 
 export default function (name, element) {
@@ -14,5 +14,3 @@ export default function (name, element) {
 
   return createElement(name, element)
 }
-
-
