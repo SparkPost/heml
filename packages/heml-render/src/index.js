@@ -67,9 +67,8 @@ async function renderElements (elements, globals) {
   renderNodes($nodes, globals)
 }
 
-
 /**
- * renders the given element $nodes
+ * renders the given array of $nodes
  * @param  {Array[Cheerio]} $nodes
  * @param  {Object}         globals { $, elements }
  */
@@ -80,14 +79,25 @@ function renderNodes($nodes, globals) {
   for (let $node of $nodes) {
     const tagName = $node.prop('tagName').toLowerCase()
 
-    if (!elementMap[tagName]) { return }
+    if (!elementMap[tagName]) { continue }
 
     const element = elementMap[tagName]
-    const contents = $node.html()
-    const attrs = $node[0].attribs
 
-    const renderedValue = await Promise.resolve(renderElement(element, attrs, contents))
-
-    $node.replaceWith(renderedValue.trim())
+    renderNode($node, element)
   }
+}
+
+
+/**
+ * renders a single $node of the given element
+ * @param  {Cheerio} $node
+ * @param  {Object}  element
+ */
+function renderNode($node, element) {
+  const contents = $node.html()
+  const attrs = $node[0].attribs
+
+  const renderedValue = await Promise.resolve(renderElement(element, attrs, contents))
+
+  $node.replaceWith(renderedValue.trim())
 }
