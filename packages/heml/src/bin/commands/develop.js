@@ -71,7 +71,7 @@ function renderCLI ({ url, status, time, size }) {
     `${chalk.bgBlue.black(' HEML ')}\n\n` +
     `- ${chalk.bold('Preview:')}         ${url}\n` +
     `- ${chalk.bold('Status:')}          ${status}\n` +
-    `- ${chalk.bold('Compile time:')}    ${time}\n` +
+    `- ${chalk.bold('Compile time:')}    ${time}ms\n` +
     `- ${chalk.bold('Total size:')}      ${size}`,
     { padding: 1, margin: 1 }))
 }
