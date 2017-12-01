@@ -1,8 +1,8 @@
-import HEML, { createElement } from '@heml/utils' // eslint-disable-line no-unused-vars
+import HEML, { createMetaElement } from '@heml/utils' // eslint-disable-line no-unused-vars
 
 let metaMap
 
-export default createElement('meta', {
+export default createMetaElement('meta', {
   attrs: true,
   parent: [ 'head' ],
 

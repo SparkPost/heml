@@ -1,4 +1,4 @@
-import HEML, { createElement } from '@heml/utils' // eslint-disable-line no-unused-vars
+import HEML, { createMetaElement } from '@heml/utils' // eslint-disable-line no-unused-vars
 import hemlstyles from '@heml/styles'
 import { castArray, isEqual, uniqWith, sortBy } from 'lodash'
 
@@ -8,7 +8,7 @@ const START_INLINE_CSS = `/*!***START:INLINE_CSS*****/`
 let styleMap
 let options
 
-export default createElement('style', {
+export default createMetaElement('style', {
   parent: [ 'head' ],
   attrs: [ 'for', 'heml-embed' ],
   defaultAttrs: {

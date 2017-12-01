@@ -1,10 +1,10 @@
-import HEML, { createElement } from '@heml/utils' // eslint-disable-line no-unused-vars
+import HEML, { createMetaElement } from '@heml/utils' // eslint-disable-line no-unused-vars
 import Meta from './Meta'
 import isAbsoluteUrl from 'is-absolute-url'
 import { resolve } from 'url'
 import { has, first } from 'lodash'
 
-export default createElement('base', {
+export default createMetaElement('base', {
   parent: [ 'head' ],
   children: false,
   unique: true,
