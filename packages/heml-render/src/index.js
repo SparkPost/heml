@@ -18,6 +18,7 @@ export default async function render ($, options = {}) {
   const Meta = first(elements.filter(({ tagName }) => tagName === 'meta'))
 
   await preRenderElements(elements, globals)
+  await renderMetaElements(elements, globals)
   await renderElements(elements, globals)
   await postRenderElements(elements, globals)
 
@@ -49,22 +50,33 @@ async function postRenderElements (elements, globals) {
 }
 
 /**
- * Renders all HEML elements
+ * Renders meta HEML elements
+ * @param  {Array}  elements  List of element definitons
+ * @param  {Object} globals
+ * @return {Promise}
+ */
+async function renderMetaElements (elements, globals) {
+  const { $ } = globals
+  const metaTagNames = filter(elements, ({ meta }) => !!meta).map(({ tagName }) => tagName)
+
+  /** Render the meta elements first to last */
+  const $nodes = $.findNodes(metaTagNames)
+  await renderNodes($nodes, globals)
+}
+
+/**
+ * Renders HEML elements
  * @param  {Array}  elements  List of element definitons
  * @param  {Object} globals
  * @return {Promise}
  */
 async function renderElements (elements, globals) {
   const { $ } = globals
-  const metaTagNames = filter(elements, { parent: [ 'head' ] }).map(({ tagName }) => tagName)
-  const nonMetaTagNames = difference(elements.map(({ tagName }) => tagName), metaTagNames)
+  const nonMetaTagNames = filter(elements, ({ meta }) => !meta).map(({ tagName }) => tagName)
 
-  const $nodes = [
-    ...$.findNodes(metaTagNames), /** Render the meta elements first to last */
-    ...$.findNodes(nonMetaTagNames).reverse() /** Render the elements last to first/outside to inside */
-  ]
-
-  renderNodes($nodes, globals)
+  /** Render the elements last to first/outside to inside */
+  const $nodes = $.findNodes(nonMetaTagNames).reverse()
+  await renderNodes($nodes, globals)
 }
 
 /**
@@ -72,7 +84,7 @@ async function renderElements (elements, globals) {
  * @param  {Array[Cheerio]} $nodes
  * @param  {Object}         globals { $, elements }
  */
-function renderNodes($nodes, globals) {
+async function renderNodes($nodes, globals) {
   const { elements } = globals
   const elementMap = keyBy(elements, 'tagName')
 
@@ -83,7 +95,7 @@ function renderNodes($nodes, globals) {
 
     const element = elementMap[tagName]
 
-    renderNode($node, element)
+    await renderNode($node, element)
   }
 }
 
@@ -93,7 +105,7 @@ function renderNodes($nodes, globals) {
  * @param  {Cheerio} $node
  * @param  {Object}  element
  */
-function renderNode($node, element) {
+async function renderNode($node, element) {
   const contents = $node.html()
   const attrs = $node[0].attribs
 
