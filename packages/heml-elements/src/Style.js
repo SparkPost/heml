@@ -5,6 +5,8 @@ import { castArray, isEqual, uniqWith, compact, flatMap } from 'lodash'
 
 const COMMENT_EMBED_CSS = `/*!***EMBED_CSS*****/`
 const COMMENT_INLINE_CSS = `/*!***INLINE_CSS*****/`
+const COMMENT_IGNORE = `/*!***IGNORE_CSS*****/`
+const IGNORE_REGEX = new RegExp(`(${escape(COMMENT_IGNORE)})`)
 const COMMENT_REGEX = new RegExp(`(${escape(COMMENT_EMBED_CSS)}|${escape(COMMENT_INLINE_CSS)})`)
 
 export default createMetaElement('style', {
@@ -16,11 +18,14 @@ export default createMetaElement('style', {
     const { $ } = globals
     const options = buildOptions(globals)
     const elementStyles = gatherElementStyles(globals)
+    const ignoredElementStyles = elementStyles.filter(({ ignore }) => ignore)
+    /** user given style[heml-ignore] are ignored through the findNodes query */
     const $nodes = $.findNodes('style')
     const styles = nodesToStyles($nodes)
 
     const { css: processedCss } = await hemlstyles(stylesToCss([ ...elementStyles, ...styles ]), options)
-    const processedStyles = cssToStyles(processedCss)
+    const fullCss = insertIgnoredStyles(processedCss, ignoredElementStyles)
+    const processedStyles = cssToStyles(fullCss)
 
     $nodes.forEach(($node) => $node.remove())
     $('head').append(stylesToTags(processedStyles))
@@ -64,7 +69,11 @@ function buildOptions ({ $, elements }) {
  * @return {Array[Object]}         an Array of style objects
  */
 function gatherElementStyles ({ elements }) {
-  return compact(flatMap(elements, (element) => element.css && JSON.parse(element.css(StyleObjectElement))))
+  return compact(flatMap(elements, (element) => {
+    if (!element.css) { return }
+
+    return castArray(element.css(StyleObjectElement)).map(JSON.parse)
+  }))
 }
 
 const StyleObjectElement = createElement('style-object', (attrs, contents) => {
@@ -97,16 +106,35 @@ function stylesToCss (styles) {
 
   let lastEmbed
   let fullCss = ''
-  for (let { embed, css } of styles) {
+  for (let { embed, ignore, css } of styles) {
     if (lastEmbed !== embed) {
       lastEmbed = embed
       fullCss += embed ? COMMENT_EMBED_CSS : COMMENT_INLINE_CSS
+    }
+
+    if (ignore) {
+      fullCss += COMMENT_IGNORE
+      continue
     }
 
     fullCss += css
   }
 
   return fullCss
+}
+
+/**
+ * Inserts the CSS from the ignored styles into the CSS
+ * @param  {String}        css           the css
+ * @param  {Array[Object]} ignoredStyles an array of ignored styles
+ * @return {String}                      the full CSS
+ */
+function insertIgnoredStyles (css, ignoredStyles) {
+  for (const { css: ignoredCss } of ignoredStyles) {
+    css = css.replace(IGNORE_REGEX, ignoredCss)
+  }
+
+  return css
 }
 
 /**
