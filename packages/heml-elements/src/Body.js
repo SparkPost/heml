@@ -1,5 +1,4 @@
 import HEML, { createElement, transforms, cssGroups } from '@heml/utils' // eslint-disable-line no-unused-vars
-import Style from './Style'
 import Preview from './Preview'
 
 const {
@@ -23,6 +22,19 @@ export default createElement('body', {
     '.preview': [ { 'background-color': transforms.convertProp('color') } ]
   },
 
+  css (Style) {
+    return <Style>{`
+      body {
+        margin: 0;
+        width: 100%;
+        font-family: Helvetica, Arial, sans-serif;
+        font-size: 16px;
+        line-height: 20px;
+        color: black;
+      }
+    `}</Style>
+  },
+
   async render (attrs, contents) {
     attrs.class += ' body'
 
@@ -35,16 +47,6 @@ export default createElement('body', {
           </tr>
         </table>
         <div style='display:none; white-space:nowrap; font-size:15px; line-height:0;'>{'&nbsp; '.repeat(30)}</div>
-        <Style for='body'>{`
-          body {
-            margin: 0;
-            width: 100%;
-            font-family: Helvetica, Arial, sans-serif;
-            font-size: 16px;
-            line-height: 20px;
-            color: black;
-          }
-      `}</Style>
       </body>)
   }
 })

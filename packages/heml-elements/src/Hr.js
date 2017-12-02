@@ -1,5 +1,4 @@
 import HEML, { createElement, transforms, cssGroups, condition } from '@heml/utils' // eslint-disable-line no-unused-vars
-import Style from './Style'
 
 const {
   trueHide,
@@ -31,6 +30,17 @@ export default createElement('hr', {
     '.hr__cell': [ { '@pseudo': 'cell' }, height, background, box, padding, border, borderRadius, 'vertical-align' ]
   },
 
+  css (Style) {
+    return <Style>{`
+      hr {
+        width: 100%;
+        margin: auto;
+        border-top: 1px solid #9A9A9A;
+      }
+    `}</Style>
+  },
+
+
   render (attrs, contents) {
     attrs.class += ' hr'
     return (
@@ -42,13 +52,6 @@ export default createElement('hr', {
           </tr>
         </table>
         {condition('mso | IE', `</td></tr></table>`)}
-        <Style for='hr'>{`
-          hr {
-            width: 100%;
-            margin: auto;
-            border-top: 1px solid #9A9A9A;
-          }
-        `}</Style>
       </div>
     )
   }

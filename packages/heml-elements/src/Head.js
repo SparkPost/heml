@@ -1,6 +1,5 @@
 import HEML, { createElement } from '@heml/utils' // eslint-disable-line no-unused-vars
 import Subject from './Subject'
-import Style from './Style'
 
 export default createElement('head', {
   unique: true,
