@@ -19,7 +19,7 @@ export default createMetaElement('style', {
     const $nodes = $.findNodes('style')
     const styles = nodesToStyles($nodes)
 
-    const { css: processedCss } = await hemlstyles(stylesToCss([...elementStyles, ...styles ]), options)
+    const { css: processedCss } = await hemlstyles(stylesToCss([ ...elementStyles, ...styles ]), options)
     const processedStyles = cssToStyles(processedCss)
 
     $nodes.forEach(($node) => $node.remove())
@@ -30,7 +30,6 @@ export default createMetaElement('style', {
     return true
   }
 })
-
 
 /**
  * Generates the options object to be passed to hemlstyles
@@ -64,7 +63,7 @@ function buildOptions ({ $, elements }) {
  * @param  {Object}        globals
  * @return {Array[Object]}         an Array of style objects
  */
-function gatherElementStyles({ elements }) {
+function gatherElementStyles ({ elements }) {
   return compact(flatMap(elements, (element) => element.css && JSON.parse(element.css(StyleObjectElement))))
 }
 
@@ -82,7 +81,7 @@ const StyleObjectElement = createElement('style-object', (attrs, contents) => {
  * @param  {Array[Cheerio]} $nodes
  * @return {Array[Object]}
  */
-function nodesToStyles($nodes) {
+function nodesToStyles ($nodes) {
   return $nodes.map(($node) => {
     return { css: $node.html(), embed: $node.is('[heml-embed]') }
   })
@@ -93,11 +92,21 @@ function nodesToStyles($nodes) {
  * @param  {Array[Object]} styles
  * @return {String}
  */
-function stylesToCss(styles) {
+function stylesToCss (styles) {
   styles = uniqWith(styles, isEqual)
 
-  return styles.reduce((fullCss, { embed, css }) => fullCss += embed ?
-    `${COMMENT_EMBED_CSS}${css}` : `${COMMENT_INLINE_CSS}${css}`, '')
+  let lastEmbed
+  let fullCss = ''
+  for (let { embed, css } of styles) {
+    if (lastEmbed !== embed) {
+      lastEmbed = embed
+      fullCss += embed ? COMMENT_EMBED_CSS : COMMENT_INLINE_CSS
+    }
+
+    fullCss += css
+  }
+
+  return fullCss
 }
 
 /**
@@ -105,7 +114,7 @@ function stylesToCss(styles) {
  * @param  {String}        css    a string of CSS
  * @return {Array[Object]}        styles
  */
-function cssToStyles(css) {
+function cssToStyles (css) {
   const parts = compact(css.split(COMMENT_REGEX))
 
   return parts.reduce((styles, value) => {
@@ -126,7 +135,7 @@ function cssToStyles(css) {
  * @param  {Array[Object]} styles
  * @return {Array[String]}
  */
-function stylesToTags(styles) {
+function stylesToTags (styles) {
   return styles.map(({ embed, css }) => {
     return `<style ${embed ? 'data-embed' : ''}>${css}</style>\n`
   })
