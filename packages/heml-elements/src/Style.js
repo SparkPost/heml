@@ -1,7 +1,7 @@
-import HEML, { createMetaElement } from '@heml/utils' // eslint-disable-line no-unused-vars
+import HEML, { createElement, createMetaElement } from '@heml/utils' // eslint-disable-line no-unused-vars
 import hemlstyles from '@heml/styles'
 import escape from 'escape-string-regexp'
-import { castArray, isEqual, uniqWith, compact } from 'lodash'
+import { castArray, isEqual, uniqWith, compact, flatMap } from 'lodash'
 
 const COMMENT_EMBED_CSS = `/*!***EMBED_CSS*****/`
 const COMMENT_INLINE_CSS = `/*!***INLINE_CSS*****/`
@@ -15,10 +15,11 @@ export default createMetaElement('style', {
   async preRender (globals) {
     const { $ } = globals
     const options = buildOptions(globals)
+    const elementStyles = gatherElementStyles(globals)
     const $nodes = $.findNodes('style')
     const styles = nodesToStyles($nodes)
 
-    const { css: processedCss } = await hemlstyles(stylesToCss(styles), options)
+    const { css: processedCss } = await hemlstyles(stylesToCss([...elementStyles, ...styles ]), options)
     const processedStyles = cssToStyles(processedCss)
 
     $nodes.forEach(($node) => $node.remove())
@@ -33,8 +34,7 @@ export default createMetaElement('style', {
 
 /**
  * Generates the options object to be passed to hemlstyles
- * @param  {Cheerio} $        A cheerio instance
- * @param  {Array}   elements an array of HEML elements
+ * @param  {Object} globals
  * @return {Object}           options for hemlstyles
  */
 function buildOptions ({ $, elements }) {
@@ -58,6 +58,23 @@ function buildOptions ({ $, elements }) {
 
   return options
 }
+
+/**
+ * Gather all the style objects from the elements
+ * @param  {Object}        globals
+ * @return {Array[Object]}         an Array of style objects
+ */
+function gatherElementStyles({ elements }) {
+  return compact(flatMap(elements, (element) => element.css && JSON.parse(element.css(StyleObjectElement))))
+}
+
+const StyleObjectElement = createElement('style-object', (attrs, contents) => {
+  return JSON.stringify({
+    embed: !!attrs['heml-embed'],
+    ignore: !!attrs['heml-ignore'],
+    css: contents
+  })
+})
 
 /**
  * Converts an array of $nodes into style objects
@@ -85,8 +102,8 @@ function stylesToCss(styles) {
 
 /**
  * Converts a css string into  array of style objects
- * @param  {String}          css
- * @return {Array[Object]}   styles
+ * @param  {String}        css    a string of CSS
+ * @return {Array[Object]}        styles
  */
 function cssToStyles(css) {
   const parts = compact(css.split(COMMENT_REGEX))
