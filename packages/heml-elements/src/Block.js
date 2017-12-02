@@ -1,5 +1,4 @@
 import HEML, { createElement, transforms, cssGroups, condition } from '@heml/utils' // eslint-disable-line no-unused-vars
-import Style from './Style'
 
 const {
   trueHide,
@@ -31,6 +30,10 @@ export default createElement('block', {
     '.block__cell': [ { '@pseudo': 'cell' }, height, background, box, padding, border, borderRadius, 'vertical-align' ]
   },
 
+  css (Style) {
+    return <Style>{` block { width: 100%; } `}</Style>
+  },
+
   render (attrs, contents) {
     attrs.class += ' block'
     return (
@@ -42,11 +45,6 @@ export default createElement('block', {
           </tr>
         </table>
         {condition('mso | IE', `</td></tr></table>`)}
-        <Style for='block'>{`
-          block {
-            width: 100%;
-          }
-        `}</Style>
       </div>
     )
   }

@@ -1,5 +1,4 @@
 import HEML, { createElement, transforms } from '@heml/utils' // eslint-disable-line no-unused-vars
-import Style from './Style'
 import { omit, has } from 'lodash'
 import fs from 'fs-extra'
 import isAbsoluteUrl from 'is-absolute-url'
@@ -18,6 +17,15 @@ export default createElement('img', {
     'img': [ { '@pseudo': 'root' }, { display: transforms.trueHide() }, '@default' ]
   },
 
+  css (Style) {
+    return <Style>{`
+      .img__block {
+        display: block;
+        max-width: 100%;
+      }
+    `}</Style>
+  },
+
   async render (attrs, contents) {
     const isBlock = !attrs.inline
 
@@ -28,14 +36,7 @@ export default createElement('img', {
     attrs.class += ` ${isBlock ? 'img__block' : 'img__inline'}`
     attrs.style = isBlock ? '' : 'display: inline-block;'
 
-    return ([
-      <img {...omit(attrs, 'inline', 'infer')} />,
-      <Style for='img'>{`
-        .img__block {
-          display: block;
-          max-width: 100%;
-        }
-      `}</Style>])
+    return <img {...omit(attrs, 'inline', 'infer')} />
   }
 })
 

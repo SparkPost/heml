@@ -1,6 +1,5 @@
 import HEML, { createElement, transforms, cssGroups } from '@heml/utils' // eslint-disable-line no-unused-vars
 import { omit, pick } from 'lodash'
-import Style from './Style'
 
 const {
   background,
@@ -37,6 +36,19 @@ export default createElement('button', {
       { '@pseudo': 'text' }, 'color', 'text-decoration' ]
   },
 
+  css (Style) {
+    return <Style>{`
+      button {
+        margin: auto;
+        border-radius: 3px;
+        padding: 6px 12px;
+        background-color: #2097e4;
+        color: #ffffff;
+        text-decoration: none;
+      }
+    `}</Style>
+  },
+
   render (attrs, contents) {
     attrs.class += ' button'
 
@@ -57,16 +69,6 @@ export default createElement('button', {
             </td>
           </tr>
         </table>
-        <Style for='button'>{`
-          button {
-            margin: auto;
-            border-radius: 3px;
-            padding: 6px 12px;
-            background-color: #2097e4;
-            color: #ffffff;
-            text-decoration: none;
-          }
-        `}</Style>
       </div>)
   }
 })
