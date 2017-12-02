@@ -48,8 +48,6 @@ export default createElement('head', {
       </style>
       <![endif]-->`}
         <title>{Subject.flush()}</title>
-        {await Style.flush()}
-        {`<!-- content -->`}
         {/* drop in the contents */
       contents}
         {/* https://litmus.com/community/discussions/151-mystery-solved-dpi-scaling-in-outlook-2007-2013 */
