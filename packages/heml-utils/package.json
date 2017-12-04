@@ -23,6 +23,7 @@
   "dependencies": {
     "@heml/render": "^1.1.2",
     "css-groups": "^0.1.1",
-    "lodash": "^4.17.4"
+    "lodash": "^4.17.4",
+    "shorthash": "0.0.2"
   }
 }

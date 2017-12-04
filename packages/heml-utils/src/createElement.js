@@ -1,4 +1,5 @@
-import { defaults, isFunction } from 'lodash'
+import { defaults, isFunction, mapKeys, mapValues } from 'lodash'
+import hash from './hash'
 
 const textRegex = /^(text(-([^-\s]+))?(-([^-\s]+))?|word-(break|spacing|wrap)|line-break|hanging-punctuation|hyphens|letter-spacing|overflow-wrap|tab-size|white-space|font-family|font-weight|font-style|font-variant|color)$/i
 
@@ -9,6 +10,16 @@ export default function (name, element) {
 
   if (isFunction(element)) {
     element = { render: element }
+  }
+
+  if (element.rules) {
+    element.rules = mapValues(element.rules, (decls, key) => {
+      return [ { '@pseudo': key }, ...decls ]
+    })
+
+    element.rules = mapKeys(element.rules, (decls, key) => {
+      return `.${hash(name)}__${key}`
+    })
   }
 
   if (element.containsText) {

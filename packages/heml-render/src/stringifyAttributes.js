@@ -1,10 +1,12 @@
 /** escapeless version of npmjs.com/stringify-attributes */
 export default function stringifyAttributes (attrsObj) {
   const attributes = []
+  const className = attrsObj['className']
 
-  const className = Object.entries(attrsObj).find(([ key ]) => key === 'className')
-  delete attrsObj.className
-  attrsObj['class'] = attrsObj['class'] || ''
+  if (className) {
+    delete attrsObj.className
+    attrsObj['class'] = attrsObj['class'] || ''
+  }
 
 
   for (let [ key, value ] of Object.entries(attrsObj)) {
@@ -13,7 +15,7 @@ export default function stringifyAttributes (attrsObj) {
     if (Array.isArray(value)) { value = value.join(' ') }
 
     if (key === 'class' && className) {
-      value = `${value} ${Array.isArray(className[1]) ? className[1].join(' ') : className[1]}`.trim()
+      value = `${value} ${Array.isArray(className) ? className.join(' ') : String(className)}`.trim()
     }
 
     value = value === true ? '' : `="${String(value)}"`
