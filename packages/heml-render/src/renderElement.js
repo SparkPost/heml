@@ -1,5 +1,5 @@
 import isPromise from 'is-promise'
-import { isPlainObject, defaults, mapValues, castArray, compact, flattenDeep } from 'lodash'
+import { isPlainObject, isString, defaults, mapValues, castArray, compact, flattenDeep, map, keys, first } from 'lodash'
 import createHtmlElement from './createHtmlElement'
 
 export default function (name, attrs, ...contents) {
@@ -15,15 +15,7 @@ function render (name, attrs, contents) {
   }
 
   if (isPlainObject(name) && name.render) {
-    /** set the defaults and massage attribute values */
-    attrs = defaults({}, attrs, name.defaultAttrs || {})
-    attrs = mapValues(attrs, (value, name) => {
-      if ((value === '' && name !== 'class') || value === 'true' || value === 'on') { return true }
-
-      if (value === 'false' || value === 'off') { return false }
-
-      return value
-    })
+    const element = name
 
     /**
      * custom elements can return promises, arrays, or strings
@@ -33,11 +25,11 @@ function render (name, attrs, contents) {
      * 2. return a string synchronously if we can
      * 3. return a string in a promise
      */
-    const renderResults = castArray(name.render(attrs, contents))
+    const renderResults = castArray(element.render(prepareElementAttributes(element, attrs), contents))
 
     /** 1. catch shorthands for rerendering the element */
     if (renderResults.length === 1 && renderResults[0] === true) {
-      return render(name.tagName, attrs, contents)
+      return render(element.tagName, attrs, contents)
     }
 
     /** 2. we want to return synchronously if we can */
@@ -53,7 +45,56 @@ function render (name, attrs, contents) {
 
   /** if we have a regular ol element go ahead and convert it to a string */
   if (attrs && attrs.class === '') { delete attrs.class }
-  if (attrs && attrs.class) { attrs.class = attrs.class.trim() }
+  if (attrs && isString(attrs.class)) { attrs.class = attrs.class.trim() }
 
   return createHtmlElement({ name, attrs, contents })
+}
+
+
+function prepareElementAttributes(element, attrs) {
+  /** set the defaults and massage attribute values */
+  attrs = defaults({}, attrs, element.defaultAttrs || {})
+  attrs = mapValues(attrs, (value, name) => {
+    if ((value === '' && name !== 'class') || value === 'true' || value === 'on') { return true }
+
+    if (value === 'false' || value === 'off') { return false }
+
+    return value
+  })
+
+  /** set up the rules attribute to mirror the rules set on the element */
+  if (element.rules) {
+    attrs.rules = {}
+
+    const childClasses = buildChildClasses(attrs)
+
+    for (let [ selector, decls ] of Object.entries(element.rules)) {
+      const pseudo = findPseudo(decls)
+
+      attrs.rules[pseudo || selector] = {
+        className: [ ...compact(selector.split('.')), ...(pseudo === 'root' ? attrs.class.split(/\s+/) : childClasses) ]
+      }
+    }
+
+    delete attrs.class
+  }
+
+  return attrs
+}
+
+function buildChildClasses({ id, class: classes }) {
+  classes = isString(classes) ? compact(classes.split(/\s+/)) : classes
+
+  const childClasses = classes.map((c) => `c-${c}`)
+
+  return !!id ? [ `i-${id}`, ...childClasses ] : childClasses
+}
+
+function findPseudo(decls) {
+  for (let decl of decls) {
+    const firstKey = first(keys(decl))
+    if (isPlainObject(decl) && firstKey === '@pseudo') {
+      return decl = decl[firstKey]
+    }
+  }
 }
