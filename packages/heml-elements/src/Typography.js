@@ -24,12 +24,12 @@ function createTextElement (name, element = {}) {
   return createElement(name, merge({
     attrs: true,
     rules: {
-      [`.${name}.${classToAdd}`]: [ { '@pseudo': 'root' }, '@default', { display: transforms.trueHide() }, margin, background, border, borderRadius, text, font ]
+      root: [ '@default', { display: transforms.trueHide() }, margin, background, border, borderRadius, text, font ]
     },
     render (attrs, contents) {
-      attrs.class += ` ${classToAdd} ${name}`
+      const { rules, ...defaultAttrs } = attrs
 
-      return <Tag {...attrs}>{contents}</Tag>
+      return <Tag {...defaultAttrs} {...rule.root} class={classToAdd}>{contents}</Tag>
     }
   }, element))
 }
@@ -50,13 +50,14 @@ const A = createElement('a', {
   defaultAttrs: { href: '#' },
 
   rules: {
-    '.a': [ { '@pseudo': 'root' }, { '@default': true }, { display: transforms.trueHide('inline') }, 'color', 'text-decoration' ],
-    '.a__text': [ { '@pseudo': 'text' }, 'color', 'text-decoration' ]
+    root: [ '@default', { display: transforms.trueHide('inline') }, 'color', 'text-decoration' ],
+    text: [ 'color', 'text-decoration' ]
   },
 
   render (attrs, contents) {
-    attrs.class += ' a'
-    return <a {...attrs}><span class='a__text'>{contents}</span></a>
+    const { rules, ...defaultAttrs } = attrs
+
+    return <a {...defaultAttrs} {...rules.root}><span {...rules.text}>{contents}</span></a>
   }
 })
 

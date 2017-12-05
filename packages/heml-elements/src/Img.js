@@ -14,7 +14,7 @@ export default createElement('img', {
   },
 
   rules: {
-    'img': [ { '@pseudo': 'root' }, { display: transforms.trueHide() }, '@default' ]
+    root: [ { display: transforms.trueHide() }, '@default' ]
   },
 
   css (Style) {
@@ -23,20 +23,27 @@ export default createElement('img', {
         display: block;
         max-width: 100%;
       }
+
+      .img__inline {
+        display: inline-block;
+      }
     `}</Style>
   },
 
   async render (attrs, contents) {
-    const isBlock = !attrs.inline
+    let { infer, src, width, rules, inline, ...defaultAttrs } = attrs
 
-    if (!!attrs.infer && has(attrs, 'src') && !attrs.width) {
-      attrs.width = await getWidth(attrs.src, attrs.infer === 'retina')
+    if (!!infer && !!src && !width) {
+      width = await getWidth(src, infer === 'retina')
     }
 
-    attrs.class += ` ${isBlock ? 'img__block' : 'img__inline'}`
-    attrs.style = isBlock ? '' : 'display: inline-block;'
 
-    return <img {...omit(attrs, 'inline', 'infer')} />
+
+    return <img {...rules.root}
+      src={src}
+      width={width || 'auto'}
+      {...defaultAttrs}
+      class={!inline ? 'img__block' : 'img__inline'} />
   }
 })
 

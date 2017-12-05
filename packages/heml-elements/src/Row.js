@@ -5,19 +5,18 @@ export default createElement('row', {
   children: [ 'column' ],
 
   rules: {
-    '.row': [ { '@pseudo': 'root' }, { display: transforms.trueHide('block') } ],
-
-    '.row__table': [ { '@pseudo': 'table' } ],
-
-    '.row__row': [ { '@pseudo': 'row' } ]
+    root: [ { display: transforms.trueHide('block') } ],
+    table: [ ],
+    row: [ ]
   },
 
   render (attrs, contents) {
-    attrs.class += ' row'
+    const { rules, ...defaultAttrs } = attrs
+
     return (
-      <div {...attrs}>
-        <table class='row__table' width='100%' align='center' role='presentation' border='0' cellpadding='0' cellspacing='0' style='table-layout: fixed;'>
-          <tr class='row__row'>{contents}</tr>
+      <div {...defaultAttrs} {...rules.root}>
+        <table {...rules.table} width='100%' align='center' role='presentation' border='0' cellpadding='0' cellspacing='0' style='table-layout: fixed;'>
+          <tr {...rules.row}>{contents}</tr>
         </table>
       </div>)
   },
