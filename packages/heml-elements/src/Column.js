@@ -17,7 +17,7 @@ export default createElement('column', {
   containsText: true,
 
   rules: {
-    '.column': [ { '@pseudo': 'root' }, { display: transforms.trueHide(undefined, true) }, background, box, padding, border, borderRadius, 'vertical-align' ]
+    root: [ { display: transforms.trueHide(undefined, true) }, background, box, padding, border, borderRadius, 'vertical-align' ]
   },
 
   css (Style) {
@@ -35,16 +35,11 @@ export default createElement('column', {
   },
 
   render (attrs, contents) {
-    const small = parseInt(attrs.small, 10)
-    const large = parseInt(attrs.large, 10)
-    const largeWidth = `${Math.round((100 * large) / 12)}%`
-    attrs.class += ` column col-sm-${small}`
-
-    delete attrs.large
-    delete attrs.small
+    const { small, large, rules, ...defaultAttrs } = attrs
+    const largeWidth = `${Math.round((100 * parseInt(large, 10)) / 12)}%`
 
     return (
-      <td {...attrs} width={largeWidth} style={`width: ${largeWidth};`} align='left' valign='top'>
+      <td {...defaultAttrs} {...rules.root} class={`column col-sm-${parseInt(small, 10)}`} width={largeWidth} style={`width: ${largeWidth};`} align='left' valign='top'>
         {contents.length === 0 ? '&nbsp;' : contents}
       </td>)
   }

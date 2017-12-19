@@ -21,19 +21,11 @@ export default createElement('button', {
   },
 
   rules: {
-    '.button': [
-      { '@pseudo': 'root' }, { display: transforms.trueHide('block') } ],
-
-    '.button__table': [
-      { '@pseudo': 'table' }, margin, table ],
-
-    '.button__cell': [
-      { '@pseudo': 'cell' }, background, padding, borderRadius, border, height, width, box ],
-
-    '.button__link': [
-      { '@pseudo': 'link' }, background, text, font ],
-    '.button__text': [
-      { '@pseudo': 'text' }, 'color', 'text-decoration' ]
+    root: [ { display: transforms.trueHide('block') } ],
+    table: [ margin, table ],
+    cell: [ background, padding, borderRadius, border, height, width, box ],
+    link: [ background, text, font ],
+    text: [ 'color', 'text-decoration' ]
   },
 
   css (Style) {
@@ -50,18 +42,18 @@ export default createElement('button', {
   },
 
   render (attrs, contents) {
-    attrs.class += ' button'
+    const { rules, ...defaultAttrs } = attrs
 
     return (
-      <div {...omit(attrs, [ 'href', 'target' ])}>
+      <div {...omit(defaultAttrs, [ 'href', 'target' ])} {...rules.root}>
         <table role='presentation' width='100%' align='left' border='0' cellpadding='0' cellspacing='0'>
           <tr>
             <td>
-              <table role='presentation' width='auto' align='center' border='0' cellspacing='0' cellpadding='0' class='button__table'>
+              <table  {...rules.table} role='presentation' width='auto' align='center' border='0' cellspacing='0' cellpadding='0'>
                 <tr>
-                  <td align='center' class='button__cell'>
-                    <a {...pick(attrs, [ 'href', 'target' ])} class='button__link' style='display: inline-block;'>
-                      <span class='button__text'>{contents}</span>
+                  <td  {...rules.cell} align='center'>
+                    <a  {...rules.link} {...pick(attrs, [ 'href', 'target' ])} style='display: inline-block;'>
+                      <span {...rules.text}>{contents}</span>
                     </a>
                   </td>
                 </tr>

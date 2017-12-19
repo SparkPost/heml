@@ -13,13 +13,9 @@ export default createElement('body', {
   containsText: true,
 
   rules: {
-    '.body': [ { '@pseudo': 'root' }, background ],
-
-    '.bodyTable': [ { '@pseudo': 'table' }, '@default', background ],
-
-    '.body__content': [ { '@pseudo': 'content' }, padding, font, text ],
-
-    '.preview': [ { 'background-color': transforms.convertProp('color') } ]
+    root: [ background ],
+    table: [ '@default', background ],
+    content: [ padding, font, text ]
   },
 
   css (Style) {
@@ -36,14 +32,14 @@ export default createElement('body', {
   },
 
   async render (attrs, contents) {
-    attrs.class += ' body'
+    const { rules, ...defaultAttrs } = attrs
 
     return (
-      <body {...attrs} style='margin: 0; width: 100%;'>
+      <body {...defaultAttrs} {...rules.root} style='margin: 0; width: 100%;'>
         {Preview.flush()}
-        <table class='bodyTable' role='presentation' width='100%' align='left' border='0' cellpadding='0' cellspacing='0' style='margin: 0;'>
+        <table {...rules.table} role='presentation' width='100%' align='left' border='0' cellpadding='0' cellspacing='0' style='margin: 0;'>
           <tr>
-            <td class='body__content' align='left' width='100%' valign='top'>{contents}</td>
+            <td {...rules.content} align='left' width='100%' valign='top'>{contents}</td>
           </tr>
         </table>
         <div style='display:none; white-space:nowrap; font-size:15px; line-height:0;'>{'&nbsp; '.repeat(30)}</div>

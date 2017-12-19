@@ -19,15 +19,11 @@ export default createElement('container', {
   containsText: true,
 
   rules: {
-    '.container': [ { '@pseudo': 'root' }, { display: trueHide('block') }, margin, width ],
-
-    '.container__table__ie': [ 'width', 'max-width', { [margin]: ieAlignFallback } ],
-
-    '.container__table': [ { '@pseudo': 'table' }, table ],
-
-    '.container__row': [ { '@pseudo': 'row' } ],
-
-    '.container__cell': [ { '@pseudo': 'cell' }, height, background, box, padding, border, borderRadius ]
+    root: [ { display: trueHide('block') }, margin, width ],
+    table__ie: [ 'width', 'max-width', { [margin]: ieAlignFallback } ],
+    table: [ table ],
+    row: [],
+    cell: [ height, background, box, padding, border, borderRadius ]
   },
 
   css (Style) {
@@ -41,13 +37,14 @@ export default createElement('container', {
   },
 
   render (attrs, contents) {
-    attrs.class += ' container'
+    const { rules, ...defaultAttrs } = attrs
+
     return (
-      <div {...attrs}>
-        {condition('mso | IE', `<table class="container__table__ie" role="presentation" border="0" cellpadding="0" cellspacing="0"><tr><td>`)}
-        <table class='container__table' role='presentation' border='0' align='center' cellpadding='0' cellspacing='0' width='100%'>
-          <tr class='container__row'>
-            <td class='container__cell' width='100%' align='left' valign='top'>{contents}</td>
+      <div {...defaultAttrs} {...rules.root}>
+        {condition('mso | IE', `<table class="${rules.table__ie.className.join((' '))}" role="presentation" border="0" cellpadding="0" cellspacing="0"><tr><td>`)}
+        <table {...rules.table} role='presentation' border='0' align='center' cellpadding='0' cellspacing='0' width='100%'>
+          <tr {...rules.row}>
+            <td {...cell} width='100%' align='left' valign='top'>{contents}</td>
           </tr>
         </table>
         {condition('mso | IE', `</td></tr></table>`)}
