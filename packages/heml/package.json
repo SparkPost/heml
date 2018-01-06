@@ -1,6 +1,6 @@
 {
   "name": "heml",
-  "version": "1.0.2-0",
+  "version": "1.1.3",
   "description": "HEML is an open source markup language for building responsive email",
   "keywords": [
     "heml",
@@ -20,12 +20,12 @@
   "main": "build/index.js",
   "bin": "build/bin/heml.js",
   "dependencies": {
-    "@heml/elements": "^1.0.2-0",
-    "@heml/inline": "^1.0.2-0",
-    "@heml/parse": "^1.0.2-0",
-    "@heml/render": "^1.0.2-0",
-    "@heml/utils": "^1.0.2-0",
-    "@heml/validate": "^1.0.2-0",
+    "@heml/elements": "^1.1.3",
+    "@heml/inline": "^1.1.2",
+    "@heml/parse": "^1.1.2",
+    "@heml/render": "^1.1.2",
+    "@heml/utils": "^1.1.2",
+    "@heml/validate": "^1.1.2",
     "babel-runtime": "^6.26.0",
     "boxen": "^1.2.1",
     "byte-length": "^0.1.1",

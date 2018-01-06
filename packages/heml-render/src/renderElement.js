@@ -1,7 +1,6 @@
-import stringifyAttributes from 'stringify-attributes'
 import isPromise from 'is-promise'
 import { isPlainObject, defaults, mapValues, castArray, compact, flattenDeep } from 'lodash'
-import selfClosingHtmlTags from 'html-tags/void'
+import createHtmlElement from './createHtmlElement'
 
 export default function (name, attrs, ...contents) {
   /** catch all promises in this content and wait for them to finish */
@@ -56,9 +55,5 @@ function render (name, attrs, contents) {
   if (attrs && attrs.class === '') { delete attrs.class }
   if (attrs && attrs.class) { attrs.class = attrs.class.trim() }
 
-  if (selfClosingHtmlTags.includes(name)) {
-    return `<${name}${attrs ? stringifyAttributes(attrs) : ''} />`
-  }
-
-  return `<${name}${attrs ? stringifyAttributes(attrs) : ''}>${contents || ' '}</${name}>`
+  return createHtmlElement({ name, attrs, contents })
 }

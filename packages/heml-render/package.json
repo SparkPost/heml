@@ -1,6 +1,6 @@
 {
   "name": "@heml/render",
-  "version": "1.0.2-0",
+  "version": "1.1.2",
   "description": "Renderer for HEML",
   "keywords": [
     "heml"
@@ -24,7 +24,6 @@
     "babel-runtime": "^6.26.0",
     "html-tags": "^2.0.0",
     "is-promise": "^2.1.0",
-    "lodash": "^4.17.4",
-    "stringify-attributes": "^1.0.0"
+    "lodash": "^4.17.4"
   }
 }
