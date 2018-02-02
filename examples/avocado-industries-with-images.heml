@@ -10,7 +10,7 @@
       button { background: orange; font-size: 24px; font-weight: bold; font-family: Arial, sans-serif; color: white; padding: 20px 20px; }			
 			container#footer {
 				background-color: green;
-				background-image: url('https://raw.githubusercontent.com/tuck1s/heml/master/examples/assets/footer-bg.jpg')
+				background-image: url('https://raw.githubusercontent.com/sparkpost/heml/master/examples/assets/footer-bg.jpg')
 			}
 			p.footer {text-align: center; font-size: 12px; font-family: Arial, sans-serif; color: white; }
 			p.footer_title  {text-align: center; font-size: 24px; font-weight: bold; font-family: Georgia, Times, serif; color: white; }
@@ -21,21 +21,21 @@
     <container>
 			<row>
 				<column>
-						<a href="#"><img src="https://raw.githubusercontent.com/tuck1s/heml/master/examples/assets/avocado-logo-sml.png" alt=""></a>
+						<a href="#"><img src="https://raw.githubusercontent.com/sparkpost/heml/master/examples/assets/avocado-logo-sml.png" alt=""></a>
 			  </column>
 				<column>
 				  <p>
-						<a href="#"><img inline src="https://raw.githubusercontent.com/tuck1s/heml/master/examples/assets/twitter.png" alt=""></a>
-						<a href="#"><img inline src="https://raw.githubusercontent.com/tuck1s/heml/master/examples/assets/facebook.png" alt=""></a>
-						<a href="#"><img inline src="https://raw.githubusercontent.com/tuck1s/heml/master/examples/assets/instagram.png" alt=""></a>
-						<a href="#"><img inline src="https://raw.githubusercontent.com/tuck1s/heml/master/examples/assets/gplus.png" alt=""></a>
-						<a href="#"><img inline src="https://raw.githubusercontent.com/tuck1s/heml/master/examples/assets/github.png" alt=""></a>
+						<a href="#"><img inline src="https://raw.githubusercontent.com/sparkpost/heml/master/examples/assets/twitter.png" alt=""></a>
+						<a href="#"><img inline src="https://raw.githubusercontent.com/sparkpost/heml/master/examples/assets/facebook.png" alt=""></a>
+						<a href="#"><img inline src="https://raw.githubusercontent.com/sparkpost/heml/master/examples/assets/instagram.png" alt=""></a>
+						<a href="#"><img inline src="https://raw.githubusercontent.com/sparkpost/heml/master/examples/assets/gplus.png" alt=""></a>
+						<a href="#"><img inline src="https://raw.githubusercontent.com/sparkpost/heml/master/examples/assets/github.png" alt=""></a>
 				  </p>
 			  </column>
 			</row>
 			<h1>America's Finest Homemade Guacamole!</h1>
 			<p>
-        <a href="#"><img style="margin:auto" src="https://raw.githubusercontent.com/tuck1s/heml/master/examples/assets/guac-485px.jpg" alt=""></a>
+        <a href="#"><img style="margin:auto" src="https://raw.githubusercontent.com/sparkpost/heml/master/examples/assets/guac-485px.jpg" alt=""></a>
 	      <br>
 				Spicy heml tasty responsive jalapeno bacon ipsum dolor amet pariatur mollit fatback venison,
 				cillum occaecat quis ut labore pork belly culpa ea bacon in spare ribs.</p>
@@ -47,12 +47,12 @@
       <br>
       <row>
         <column>
-					<a href="#"><img style="margin:auto" src="https://raw.githubusercontent.com/tuck1s/heml/master/examples/assets/avocado-235px.jpg" alt=""></a>
+					<a href="#"><img style="margin:auto" src="https://raw.githubusercontent.com/sparkpost/heml/master/examples/assets/avocado-235px.jpg" alt=""></a>
 					<a href="#"><h2>Tasty Recipes!</h2></a>
 					<p>Velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident.</p>
         </column>
         <column>
-					<a href="#"><img style="margin:auto" src="https://raw.githubusercontent.com/tuck1s/heml/master/examples/assets/tomatoes-235px.jpg" alt=""></a>
+					<a href="#"><img style="margin:auto" src="https://raw.githubusercontent.com/sparkpost/heml/master/examples/assets/tomatoes-235px.jpg" alt=""></a>
 					<a href="#"><h2>All Natural Ingredients</h2></a>
 					<p>Velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident.</p>
         </column>
@@ -62,7 +62,7 @@
 			<row>
 				<column>
 					<p class="footer_title">
-						<img style="margin:auto" src="https://raw.githubusercontent.com/tuck1s/heml/master/examples/assets/white-avocado-logo-sml.png" alt="" />
+						<img style="margin:auto" src="https://raw.githubusercontent.com/sparkpost/heml/master/examples/assets/white-avocado-logo-sml.png" alt="" />
 						Growing Quality.
 				  </p>				  
   				<p class="footer">
@@ -71,11 +71,11 @@
   					&copy; 2018 Avocado Industries. All rights reserved.
 					<br>
 					<br>
-					<a href="#"><img inline src="https://raw.githubusercontent.com/tuck1s/heml/master/examples/assets/twitter.png" alt="" border="0"></a>
-					<a href="#"><img inline src="https://raw.githubusercontent.com/tuck1s/heml/master/examples/assets/facebook.png" alt="" border="0"></a>
-					<a href="#"><img inline src="https://raw.githubusercontent.com/tuck1s/heml/master/examples/assets/instagram.png" alt="" border="0"></a>
-					<a href="#"><img inline src="https://raw.githubusercontent.com/tuck1s/heml/master/examples/assets/gplus.png" alt="" border="0"></a>
-					<a href="#"><img inline src="https://raw.githubusercontent.com/tuck1s/heml/master/examples/assets/github.png" alt="" border="0"></a>
+					<a href="#"><img inline src="https://raw.githubusercontent.com/sparkpost/heml/master/examples/assets/twitter.png" alt="" border="0"></a>
+					<a href="#"><img inline src="https://raw.githubusercontent.com/sparkpost/heml/master/examples/assets/facebook.png" alt="" border="0"></a>
+					<a href="#"><img inline src="https://raw.githubusercontent.com/sparkpost/heml/master/examples/assets/instagram.png" alt="" border="0"></a>
+					<a href="#"><img inline src="https://raw.githubusercontent.com/sparkpost/heml/master/examples/assets/gplus.png" alt="" border="0"></a>
+					<a href="#"><img inline src="https://raw.githubusercontent.com/sparkpost/heml/master/examples/assets/github.png" alt="" border="0"></a>
 				  </p>				  
 				</column>
 			</row>      
