@@ -17,7 +17,7 @@ cli
   .command('develop <file>')
   .description('Develop your email locally.')
   .option('--open', 'Open the email in your browser')
-  .option('-p, --port', 'Port for server', 3000)
+  .option('-p, --port <number>', 'Port for server', 3000)
   .action(develop)
 
 cli
