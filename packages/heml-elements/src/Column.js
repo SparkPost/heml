@@ -11,9 +11,9 @@ const {
 const breakpoint = 600
 
 export default createElement('column', {
-  attrs: [ 'small', 'large' ],
+  attrs: [ 'small', 'large', 'align' ],
   parent: [ 'row' ],
-  defaultAttrs: { small: 12, large: 12 },
+  defaultAttrs: { small: 12, large: 12, align: 'left' },
   containsText: true,
 
   rules: {
@@ -21,6 +21,7 @@ export default createElement('column', {
   },
 
   render (attrs, contents) {
+    const { align } = attrs
     const small = parseInt(attrs.small, 10)
     const large = parseInt(attrs.large, 10)
     const largeWidth = `${Math.round((100 * large) / 12)}%`
@@ -28,9 +29,10 @@ export default createElement('column', {
 
     delete attrs.large
     delete attrs.small
+    delete attrs.align
 
     return ([
-      <td {...attrs} width={largeWidth} style={`width: ${largeWidth};`} align='left' valign='top'>
+      <td {...attrs} width={largeWidth} style={`width: ${largeWidth};`} align={align} valign='top'>
         {contents.length === 0 ? '&nbsp;' : contents}
       </td>,
       small === large ? '' : (<Style for='column' heml-embed>{`
