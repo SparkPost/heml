@@ -14,6 +14,7 @@ const {
   width,
   height,
   table,
+  text,
   box } = cssGroups
 
 export default createElement('block', {
@@ -28,7 +29,7 @@ export default createElement('block', {
 
     '.block__row': [ { '@pseudo': 'row' } ],
 
-    '.block__cell': [ { '@pseudo': 'cell' }, height, background, box, padding, border, borderRadius, 'vertical-align' ]
+    '.block__cell': [ { '@pseudo': 'cell' }, height, background, box, padding, border, borderRadius, text, 'vertical-align' ]
   },
 
   render (attrs, contents) {
