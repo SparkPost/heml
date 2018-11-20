@@ -22,6 +22,7 @@
   },
   "dependencies": {
     "@heml/utils": "^1.1.2",
+    "babel-runtime": "^6.26.0",
     "lodash": "^4.17.4"
   }
 }
