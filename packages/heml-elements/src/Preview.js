@@ -1,7 +1,7 @@
-import HEML, { createElement } from '@heml/utils' // eslint-disable-line no-unused-vars
+import HEML, { createMetaElement } from '@heml/utils' // eslint-disable-line no-unused-vars
 import Meta from './Meta'
 
-export default createElement('preview', {
+export default createMetaElement('preview', {
   parent: [ 'head' ],
   unique: true,
 

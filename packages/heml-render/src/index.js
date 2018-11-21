@@ -1,4 +1,4 @@
-import { filter, difference, keyBy, first } from 'lodash'
+import { filter, keyBy, first } from 'lodash'
 import renderElement from './renderElement'
 
 export { renderElement }
@@ -18,6 +18,7 @@ export default async function render ($, options = {}) {
   const Meta = first(elements.filter(({ tagName }) => tagName === 'meta'))
 
   await preRenderElements(elements, globals)
+  await renderMetaElements(elements, globals)
   await renderElements(elements, globals)
   await postRenderElements(elements, globals)
 
@@ -49,29 +50,65 @@ async function postRenderElements (elements, globals) {
 }
 
 /**
- * Renders all HEML elements
+ * Renders meta HEML elements
+ * @param  {Array}  elements  List of element definitons
+ * @param  {Object} globals
+ * @return {Promise}
+ */
+async function renderMetaElements (elements, globals) {
+  const { $ } = globals
+  const metaTagNames = filter(elements, ({ meta }) => !!meta).map(({ tagName }) => tagName)
+
+  /** Render the meta elements first to last */
+  const $nodes = $.findNodes(metaTagNames)
+  await renderNodes($nodes, globals)
+}
+
+/**
+ * Renders HEML elements
  * @param  {Array}  elements  List of element definitons
  * @param  {Object} globals
  * @return {Promise}
  */
 async function renderElements (elements, globals) {
   const { $ } = globals
-  const elementMap = keyBy(elements, 'tagName')
-  const metaTagNames = filter(elements, { parent: [ 'head' ] }).map(({ tagName }) => tagName)
-  const nonMetaTagNames = difference(elements.map(({ tagName }) => tagName), metaTagNames)
+  const nonMetaTagNames = filter(elements, ({ meta }) => !meta).map(({ tagName }) => tagName)
 
-  const $nodes = [
-    ...$.findNodes(metaTagNames), /** Render the meta elements first to last */
-    ...$.findNodes(nonMetaTagNames).reverse() /** Render the elements last to first/outside to inside */
-  ]
+  /** Render the elements last to first/outside to inside */
+  const $nodes = $.findNodes(nonMetaTagNames).reverse()
+  await renderNodes($nodes, globals)
+}
+
+/**
+ * renders the given array of $nodes
+ * @param  {Array[Cheerio]} $nodes
+ * @param  {Object}         globals { $, elements }
+ */
+async function renderNodes ($nodes, globals) {
+  const { elements } = globals
+  const elementMap = keyBy(elements, 'tagName')
 
   for (let $node of $nodes) {
-    const element = elementMap[$node.prop('tagName').toLowerCase()]
-    const contents = $node.html()
-    const attrs = $node[0].attribs
+    const tagName = $node.prop('tagName').toLowerCase()
 
-    const renderedValue = await Promise.resolve(renderElement(element, attrs, contents))
+    if (!elementMap[tagName]) { continue }
 
-    $node.replaceWith(renderedValue.trim())
+    const element = elementMap[tagName]
+
+    await renderNode($node, element)
   }
+}
+
+/**
+ * renders a single $node of the given element
+ * @param  {Cheerio} $node
+ * @param  {Object}  element
+ */
+async function renderNode ($node, element) {
+  const contents = $node.html()
+  const attrs = $node[0].attribs
+
+  const renderedValue = await Promise.resolve(renderElement(element, attrs, contents))
+
+  $node.replaceWith(renderedValue.trim())
 }
