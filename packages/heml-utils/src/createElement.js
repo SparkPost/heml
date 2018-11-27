@@ -27,7 +27,5 @@ export default function (name, element) {
     postRender () {}
   })
 
-  element.defaultAttrs.class = element.defaultAttrs.class || ''
-
   return element
 }

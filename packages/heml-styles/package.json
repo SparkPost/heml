@@ -22,6 +22,7 @@
   },
   "dependencies": {
     "css-declaration-sorter": "^2.1.0",
+    "css-selector-tokenizer": "^0.7.0",
     "css-shorthand-expand": "^1.1.0",
     "lodash": "^4.17.4",
     "postcss": "^6.0.13",
