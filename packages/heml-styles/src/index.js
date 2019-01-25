@@ -87,7 +87,7 @@ async function hemlstyles (contents, options = {}) {
     mergeLonghand(),
     discardEmpty()
   ])
-  .process(contents, { parser: safeParser })
+  .process(contents, { parser: safeParser, from: undefined })
 }
 
 export default hemlstyles
