@@ -33,7 +33,7 @@ export default async function develop (file, options) {
 
     update({ html, errors, metadata })
 
-    if (open) openUrl(url)
+    if (open) await openUrl(url)
 
     /** watch for file changes */
     gaze(filepath, function (err) {
@@ -84,7 +84,7 @@ function renderCLI ({ url, status, time, size }) {
 function startDevServer (directory, port = 3000) {
   let url
   const app = express()
-  const { reload } = reloadServer(app)
+  const { reload } = await reloadServer(app)
   let preview = ''
 
   app.get('/', (req, res) => res.send(preview))
